@@ -6,13 +6,12 @@ import path from "path";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-app.use(express.static(path.join(__dirname, "build")));
 app.use(Cors());
+app.use(express.static(path.resolve("build")));
 
-app.get("/", (req, res) => {
-  console.log(__dirname);
-  console.log("got the req");
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+app.get("/app/*", (req, res) => {
+  console.log("got the req ", path.resolve("build", "index.html"));
+  res.sendFile(path.resolve("build", "index.html"));
 });
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

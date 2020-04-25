@@ -15,7 +15,8 @@ app.use(Cors());
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
 
-app.get("/app/*", (req, res) => {
+app.get("/app", (req, res) => {
+  console.log("got the req");
   res.sendFile(path.resolve("build", "index.html"));
 });
 

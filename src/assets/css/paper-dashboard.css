@@ -1717,7 +1717,7 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 
 .form-check {
   padding-left: 0;
-  margin-bottom: .5rem; }
+  margin-bottom: 0.5rem; }
   .form-check .form-check-label {
     display: inline-block;
     position: relative;
@@ -1736,25 +1736,15 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     cursor: pointer;
     border-radius: 6px;
     top: 0;
-    background-color: #AAA7A4;
+    background-color: #aaa7a4;
     -webkit-transition: opacity 0.3s linear;
     -moz-transition: opacity 0.3s linear;
     -o-transition: opacity 0.3s linear;
     -ms-transition: opacity 0.3s linear;
     transition: opacity 0.3s linear; }
-  .form-check .form-check-sign::after {
-    font-family: 'FontAwesome';
-    content: "\f00c";
-    top: -1px;
-    text-align: center;
-    font-size: 15px;
-    opacity: 0;
-    color: #FFF;
-    border: 0;
-    background-color: inherit; }
   .form-check.disabled .form-check-label {
     color: #9A9A9A;
-    opacity: .5;
+    opacity: 0.5;
     cursor: not-allowed; }
 
 .form-check input[type="checkbox"],
@@ -1780,23 +1770,11 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     padding-left: 2rem; }
   .form-check-radio.disabled .form-check-label {
     color: #9A9A9A;
-    opacity: .5;
+    opacity: 0.5;
     cursor: not-allowed; }
 
-.form-check-radio .form-check-sign::before {
-  font-family: 'FontAwesome';
-  content: "\f10c";
-  font-size: 22px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: inline-block;
-  position: absolute;
-  opacity: .50;
-  left: 5px;
-  top: -5px; }
-
 .form-check-label input[type="checkbox"]:checked + .form-check-sign:before {
-  background-color: #66615B; }
+  background-color: #66615b; }
 
 .form-check-radio input[type="radio"] + .form-check-sign:after,
 .form-check-radio input[type="radio"] {
@@ -1808,15 +1786,6 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
   transition: opacity 0.3s linear;
   content: " ";
   display: block; }
-
-.form-check-radio input[type="radio"]:checked + .form-check-sign::after {
-  font-family: 'FontAwesome';
-  content: "\f192";
-  top: -5px;
-  position: absolute;
-  left: 5px;
-  opacity: 1;
-  font-size: 22px; }
 
 .form-check-radio input[type="radio"]:checked + .form-check-sign::after {
   opacity: 1; }
@@ -4560,7 +4529,7 @@ License - nucleoapp.com/license/
     -moz-osx-font-smoothing: grayscale;
     display: inline-block;
     position: absolute;
-    opacity: .50;
+    opacity: 0.5;
     left: 5px;
     top: -5px; }
 
@@ -4568,11 +4537,13 @@ License - nucleoapp.com/license/
   font-family: "Font Awesome 5 Free";
   top: 4px; }
 
-.form-check-radio .form-check-sign::after, .form-check-radio input[type="radio"]:checked + .form-check-sign::after {
+.form-check-radio .form-check-sign::after,
+.form-check-radio input[type="radio"]:checked + .form-check-sign::after {
   font-family: "Font Awesome 5 Free";
   top: -1px; }
 
-.form-check-radio .form-check-sign::before, .form-check-radio input[type="radio"]:checked + .form-check-sign::before {
+.form-check-radio .form-check-sign::before,
+.form-check-radio input[type="radio"]:checked + .form-check-sign::before {
   font-family: "Font Awesome 5 Free";
   top: -1px; }
 

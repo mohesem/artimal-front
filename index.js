@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(Cors());
 app.use(express.static(path.resolve("build")));
 
-app.get("/app/*", (req, res) => {
+app.get("/*", (req, res) => {
   console.log("got the req ", path.resolve("build", "index.html"));
   res.sendFile(path.resolve("build", "index.html"));
 });

@@ -13,7 +13,8 @@
     "minify-sass": "node-sass src/assets/scss/paper-dashboard.scss src/assets/css/paper-dashboard.min.css --output-style compressed",
     "map-sass": "node-sass src/assets/scss/paper-dashboard.scss src/assets/css/paper-dashboard.css --source-map true",
     "serve": "serve -s -n build -l 3000",
-    "express": "node build.js"
+    "express": "node build.js",
+    "git:push": "git add . && git commit -m 'last commit' && git push -u origin master"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

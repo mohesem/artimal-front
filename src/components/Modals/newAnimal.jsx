@@ -144,7 +144,15 @@ export default (props) => {
   };
 
   const handleFormValidation = () => {
-    const newErrors = {};
+    const newErrors = {
+      price: {},
+      weight: {},
+      key: {},
+      fatherKey: {},
+      motherKey: {},
+      type: {},
+      race: {},
+    };
 
     /* ------------------------------ fatherKey ------------------------------ */
     if (

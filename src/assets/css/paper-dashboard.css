@@ -1742,6 +1742,16 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     -o-transition: opacity 0.3s linear;
     -ms-transition: opacity 0.3s linear;
     transition: opacity 0.3s linear; }
+  .form-check .form-check-sign::after {
+    font-family: "FontAwesome";
+    content: "\f00c";
+    top: -1px;
+    text-align: center;
+    font-size: 15px;
+    opacity: 0;
+    color: #fff;
+    border: 0;
+    background-color: inherit; }
   .form-check.disabled .form-check-label {
     color: #9A9A9A;
     opacity: 0.5;
@@ -1773,6 +1783,18 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     opacity: 0.5;
     cursor: not-allowed; }
 
+.form-check-radio .form-check-sign::before {
+  font-family: "FontAwesome";
+  content: "\f10c";
+  font-size: 22px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  position: absolute;
+  opacity: 0.5;
+  left: 5px;
+  top: -5px; }
+
 .form-check-label input[type="checkbox"]:checked + .form-check-sign:before {
   background-color: #66615b; }
 
@@ -1786,6 +1808,15 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
   transition: opacity 0.3s linear;
   content: " ";
   display: block; }
+
+.form-check-radio input[type="radio"]:checked + .form-check-sign::after {
+  font-family: "FontAwesome";
+  content: "\f192";
+  top: -5px;
+  position: absolute;
+  left: 5px;
+  opacity: 1;
+  font-size: 22px; }
 
 .form-check-radio input[type="radio"]:checked + .form-check-sign::after {
   opacity: 1; }
@@ -2516,6 +2547,17 @@ nucleo-icons Web Font - built using nucleoapp.com
 License - nucleoapp.com/license/
 
 -------------------------------- */
+@font-face {
+  font-family: "nucleo-icons";
+  src: url("../fonts/nucleo-icons.eot");
+  src: url("../fonts/nucleo-icons.eot") format("embedded-opentype"), url("../fonts/nucleo-icons.woff2") format("woff2"), url("../fonts/nucleo-icons.woff") format("woff"), url("../fonts/nucleo-icons.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: iranSans;
+  src: url("../fonts/IRANSans.woff"); }
+
 /*------------------------
 	base class definition
 -------------------------*/
@@ -4514,6 +4556,7 @@ License - nucleoapp.com/license/
   line-height: 1; }
 
 .form-check-radio .form-check-sign {
+  font-family: "FontAwesome";
   font-family: "Font Awesome 5 Free";
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -4720,6 +4763,13 @@ nucleo-icons Web Font - built using nucleoapp.com
 License - nucleoapp.com/license/
 
 -------------------------------- */
+@font-face {
+  font-family: "nucleo-icons";
+  src: url("../fonts/nucleo-icons.eot");
+  src: url("../fonts/nucleo-icons.eot") format("embedded-opentype"), url("../fonts/nucleo-icons.woff2") format("woff2"), url("../fonts/nucleo-icons.woff") format("woff"), url("../fonts/nucleo-icons.ttf");
+  font-weight: normal;
+  font-style: normal; }
+
 @media screen and (max-width: 991px) {
   .navbar-nav .nav-link i.fa,
   .navbar-nav .nav-link i.fal,

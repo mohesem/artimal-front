@@ -196,7 +196,7 @@ export default (props) => {
       !errors.price.isRequired
     ) {
       const error = "ورود قیمت برای دام خریداری شده الزامی است";
-      if (newErrors.price) newErrors.price = {};
+      if (!newErrors.price) newErrors.price = {};
       newErrors.price.isRequired = error;
     }
     if (price.length && errors.price.isRequired) {

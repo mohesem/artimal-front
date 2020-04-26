@@ -119,12 +119,12 @@ export default (props) => {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="far fa-calendar" /> Last day
+                  <i className="far fa-calendar" /> ماه جاری
                 </div>
               </CardFooter>
             </Card>
           </Col>
-          <Col lg="3" md="6" sm="6">
+          {/* <Col lg="3" md="6" sm="6">
             <Card className="card-stats">
               <CardBody>
                 <Row>
@@ -171,13 +171,13 @@ export default (props) => {
               <CardFooter>
                 <hr />
                 <div className="stats">
-                  <i className="fas fa-sync-alt" /> Update now
+                  <i className="fas fa-sync-alt" /> موجوودی کنونی
                 </div>
               </CardFooter>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
-        <Row>
+        {/* <Row>
           <Col md="12">
             <Card>
               <CardHeader>
@@ -201,7 +201,8 @@ export default (props) => {
             </Card>
           </Col>
         </Row>
-        <Row>
+        */}
+        {/* <Row>
           <Col md="4">
             <Card>
               <CardHeader>
@@ -255,6 +256,7 @@ export default (props) => {
             </Card>
           </Col>
         </Row>
+      */}
       </div>
     </>
   );

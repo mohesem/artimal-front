@@ -12,26 +12,22 @@ import {
 } from "reactstrap";
 
 // api
-import getAnimalDetailsApi from "../../API/getAnimalDetails";
 
 export default (props) => {
-  const [selectedAnimal, setSelectedAnimal] = useState({});
-  const [key, setKey] = useState("");
-
   const handleEntryType = () => {
-    if (selectedAnimal.entryType === 0) return "تولد";
-    if (selectedAnimal.entryType === 1) return "خرید";
+    if (props.selectedAnimal.entryType === 0) return "تولد";
+    if (props.selectedAnimal.entryType === 1) return "خرید";
     return "موجودی پیشین";
   };
 
   const handleEntrySex = () => {
-    if (selectedAnimal.sex === 0) return "نر";
+    if (props.selectedAnimal.sex === 0) return "نر";
     return "ماده";
   };
 
   const handleAge = () => {
     const start = momentJalaali(new Date());
-    const end = momentJalaali(selectedAnimal.birthDate);
+    const end = momentJalaali(props.selectedAnimal.birthDate);
     const duration = momentJalaali.duration(start.diff(end));
     const months = Math.round(duration.as("months"));
     if (months >= 1) {
@@ -42,36 +38,14 @@ export default (props) => {
     }
   };
 
-  useEffect(() => {
-    if (props.animalKey !== key) {
-      setKey(props.animalKey);
-      getAnimalDetailsApi(props.animalKey)
-        .then((res) => {
-          console.log("...............", res);
-          setSelectedAnimal({
-            key: res.details._key,
-            type: res.details.type,
-            race: res.details.race,
-            entryType: res.details.entryType,
-            entryDate: res.details.entryDate,
-            birthDate: res.details.birthDate,
-            sex: res.details.sex,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [key, props.animalKey, selectedAnimal]);
-
-  console.log(selectedAnimal);
+  console.log(props.selectedAnimal);
   return (
     <>
-      {Object.keys(selectedAnimal).length ? (
+      {Object.keys(props.selectedAnimal).length ? (
         <Card className="demo-icons">
           <CardHeader>
             <CardTitle tag="h6">
-              {selectedAnimal.type} پلاک {selectedAnimal.key}
+              {props.selectedAnimal.type} پلاک {props.selectedAnimal._key}
             </CardTitle>
           </CardHeader>
           <CardBody>
@@ -87,16 +61,16 @@ export default (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{selectedAnimal.race}</td>
+                  <td>{props.selectedAnimal.race}</td>
                   <td>{handleEntrySex()}</td>
                   <td>{handleEntryType()}</td>
                   <td>
-                    {momentJalaali(selectedAnimal.entryDate).format(
+                    {momentJalaali(props.selectedAnimal.entryDate).format(
                       "jYYYY/jM/jD"
                     )}
                   </td>
                   <td>
-                    {momentJalaali(selectedAnimal.birthDate).format(
+                    {momentJalaali(props.selectedAnimal.birthDate).format(
                       "jYYYY/jM/jD"
                     )}
                   </td>
@@ -124,6 +98,22 @@ export default (props) => {
               onClick={() => props.updateTool("vaccine")}
             >
               واکسن
+            </Button>
+            <Button
+              type="button"
+              color="primary"
+              size="small"
+              onClick={() => props.updateTool("out")}
+            >
+              خروج
+            </Button>
+            <Button
+              type="Button"
+              color="primary"
+              size="small"
+              onClick={() => props.updateTool("milk")}
+            >
+              شیر
             </Button>
           </CardFooter>
         </Card>

@@ -39,19 +39,19 @@ class Sidebar extends React.Component {
         data-active-color={this.props.activeColor}
       >
         <div className="logo">
-          <a
+          {/* <a
             href="https://www.creative-tim.com"
             className="simple-text logo-mini"
           >
             <div className="logo-img">
               <img src={logo} alt="react-logo" />
             </div>
-          </a>
+          </a> */}
           <a
             href="https://www.creative-tim.com"
             className="simple-text logo-normal"
           >
-            آرتمیال
+            آرتمیان
           </a>
         </div>
         <div className="sidebar-wrapper" ref={this.sidebar}>

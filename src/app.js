@@ -9,7 +9,8 @@ import { Router, Route, Switch, Redirect } from "react-router-dom";
 import Login from "views/Login.jsx";
 
 // api
-import isVerifiedApi from "./API/verify";
+// import isVerifiedApi from "./API/verify";
+import ApiGet from "API/get";
 
 // actions
 import { userAction } from "./redux/actions";
@@ -23,9 +24,9 @@ export default () => {
 
   useEffect(() => {
     if ((userReducer.authenticated === null, localStorage.artimal)) {
-      isVerifiedApi()
-        .then(() => {
-          dispatch(userAction({ authenticated: true }));
+      ApiGet(`api/v0/user/token/${localStorage.artimal}`)
+        .then((user) => {
+          dispatch(userAction({ authenticated: true, role: user.result.role }));
           // TODO: show error somewhere on app
         })
         .catch((err) => {

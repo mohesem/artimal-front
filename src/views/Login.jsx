@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import signinApi from "../API/signin";
 import { userAction } from "../redux/actions";
 
 // reactstrap components
@@ -16,6 +15,9 @@ import {
   Row,
   Col,
 } from "reactstrap";
+
+//import signinApi from "../API/signin";
+import ApiPost from "API/post";
 
 export default () => {
   const dispatch = useDispatch();
@@ -62,7 +64,7 @@ export default () => {
     if (Object.keys(passwordErr).length) setPasswordErrors({ ...passwordErr });
     if (!Object.keys(usernameErr).length && !Object.keys(passwordErr).length) {
       const data = { username, password };
-      signinApi(data)
+      ApiPost("api/v0/user/login", data)
         .then((res) => {
           console.log(res);
           localStorage.setItem("artimal", res.token);

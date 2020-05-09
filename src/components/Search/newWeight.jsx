@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import momentJalaali from "moment-jalaali";
 import DatePicker from "react-datepicker2";
-import { store } from "react-notifications-component";
+import notifications from "../../helpers/notification";
 
 // reactstrap components
 import {
@@ -16,70 +16,43 @@ import {
 } from "reactstrap";
 
 // api
-import putWeightApi from "../../API/putWeight";
+import ApiPost from "API/post";
 
 export default (props) => {
   const [date, setDate] = useState(momentJalaali());
-  const [weight, setWeight] = useState();
+  const [weight, setWeight] = useState("");
+  const [weightError, setWeightError] = useState("");
 
   const handleSubmit = () => {
-    const data = {
-      entry: {
-        date,
-        weight,
-        key: props.animalKey,
-      },
-      token: localStorage.artimal,
-    };
+    if (weight) {
+      const data = {
+        entry: {
+          date,
+          createdAt: momentJalaali(),
+          value: weight,
+          key: props.animalKey,
+        },
+        token: localStorage.artimal,
+      };
 
-    putWeightApi(data)
-      .then((res) => {
-        console.log(res);
-        store.addNotification({
-          // title: "Wonderful!",
-          message: (
-            <>
-              <br />
-              <p>{res.result}</p>
-            </>
-          ),
-          type: "success",
-          insert: "bottom",
-          container: "bottom-left",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-            showIcon: true,
-          },
+      console.log(data);
+
+      ApiPost(`api/v0/weight/new`, data)
+        .then((res) => {
+          console.log(res);
+          notifications(res.result, "success");
+          setWeight(null);
+          // TODO: froce update
+          props.forceUpdate();
+        })
+        .catch((err) => {
+          console.log(err);
+          notifications(err.error, "danger");
         });
-        setWeight(null);
-        // TODO: froce update
-        props.forceUpdate();
-      })
-      .catch((err) => {
-        console.log(err);
-        store.addNotification({
-          // title: "Wonderful!",
-          message: (
-            <>
-              <br />
-              <p>{err.error}</p>
-            </>
-          ),
-          type: "danger",
-          insert: "bottom",
-          container: "bottom-left",
-          animationIn: ["animated", "fadeIn"],
-          animationOut: ["animated", "fadeOut"],
-          dismiss: {
-            duration: 5000,
-            onScreen: true,
-            showIcon: true,
-          },
-        });
-      });
+      // putWeightApi(data)
+    } else {
+      setWeightError("وزن را وارد کنید");
+    }
   };
 
   return (
@@ -109,7 +82,8 @@ export default (props) => {
                 setWeight(e.target.value);
               }}
               type="number"
-            ></Input>
+            />
+            <p className="error-text-form">{weightError}</p>
           </FormGroup>
         </FormGroup>
         <FormGroup>

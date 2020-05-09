@@ -305,8 +305,8 @@
 
   > .content {
     padding: 0 30px 30px;
-    min-height: calc(100vh - 123px);
-    margin-top: 93px;
+    min-height: calc(100vh);
+    padding-top: 93px;
   }
 
   > .navbar {

@@ -22,8 +22,7 @@ import {
 } from "variables/charts.jsx";
 
 // api
-import getTotalAnimalApi from "../API/getTotalAnimal";
-import getTotalExpensesApi from "../API/getTotalExpenses";
+import ApiGet from "API/get";
 
 export default (props) => {
   /* -------------------------------------------------------------------------- */
@@ -33,7 +32,7 @@ export default (props) => {
   const [thisMonthExpense, setThisMonthExpense] = useState("");
 
   useEffect(() => {
-    getTotalAnimalApi()
+    ApiGet("api/v0/animal/total")
       .then((res) => {
         setTotalAnimal(res.result);
       })
@@ -41,13 +40,21 @@ export default (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("...............");
+    const currnetYM = momentJalaali().format("jYYYY/jM");
+    console.log("......^^^^^^^^^.........");
+    const firstDayOfMonth = currnetYM + "/1 00:00";
+
     // TODO: create from dynamic
-    const from = `${momentJalaali("1399/2/1 00:00", "jYYYY/jM/jD HH:mm").format(
+    // const from = `${momentJalaali("1399/2/1 00:00", "jYYYY/jM/jD HH:mm").format(
+    //   "YYYY-M-DTHH:mm:ss.SSS"
+    // )}Z`;
+
+    const from = `${momentJalaali(firstDayOfMonth, "jYYYY/jM/jD HH:mm").format(
       "YYYY-M-DTHH:mm:ss.SSS"
     )}Z`;
+
     const to = `${momentJalaali().format("YYYY-M-DTHH:mm:ss.SSS")}Z`;
-    getTotalExpensesApi(from, to)
+    ApiGet(`api/v0/expenses/${from}/${to}`)
       .then((res) => {
         console.log("--------", res);
         setThisMonthExpense(res.result);

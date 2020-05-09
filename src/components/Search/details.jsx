@@ -103,17 +103,35 @@ export default (props) => {
               type="button"
               color="primary"
               size="small"
-              onClick={() => props.updateTool("out")}
+              onClick={() => props.updateTool("exit")}
             >
               خروج
             </Button>
-            <Button
+            {/* <Button
               type="Button"
               color="primary"
               size="small"
               onClick={() => props.updateTool("milk")}
             >
               شیر
+            </Button> */}
+            {props.selectedAnimal.sex === 1 ? (
+              <Button
+                type="Button"
+                color="primary"
+                size="small"
+                onClick={() => props.updateTool("pregnancy")}
+              >
+                بارداری
+              </Button>
+            ) : null}
+            <Button
+              type="Button"
+              color="primary"
+              size="small"
+              onClick={() => props.updateTool("disease")}
+            >
+              بیماری
             </Button>
           </CardFooter>
         </Card>

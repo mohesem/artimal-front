@@ -33,11 +33,23 @@
   }
 }
 
-.icon-button {
+.icon-button-round {
   padding: 0px !important;
   margin: 0px 5px !important;
   // border: none !important;
   border-radius: 50px;
+  width: 26px;
+  height: 26px;
+
+  i {
+    font-size: 20px !important;
+  }
+}
+
+.icon-button {
+  padding: 0px !important;
+  margin: 0px 5px !important;
+  // border: none !important;
   width: 26px;
   height: 26px;
 
@@ -89,4 +101,20 @@
   background: lightgr;
   border: none;
   border-radius: 4px;
+}
+
+.timeline {
+  font-size: 100% !important;
+  div {
+    text-align: right;
+    right: 10px;
+    div {
+      right: -14px;
+    }
+  }
+}
+
+.timeline-event {
+  padding-right: 45px;
+  padding-left: 0px;
 }

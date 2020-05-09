@@ -7,9 +7,9 @@ import { Card, CardHeader, CardBody, CardTitle } from "reactstrap";
 
 const dataset = {
   label: "My First dataset",
-  fill: false,
+  fill: true,
   lineTension: 0.1,
-  backgroundColor: "rgba(75,192,192,0.4)",
+  backgroundColor: "rgba(75,192,192,1)",
   borderColor: "rgba(75,192,192,1)",
   borderCapStyle: "butt",
   borderDash: [],
@@ -27,13 +27,13 @@ const dataset = {
 };
 
 export default (props) => {
-  const labels = props.weightObj.map((w) => {
-    return momentJalaali(w.createdAt, "YYYY-M-DTHH:mm:ss.SSSZ").format(
-      "jYY-jM-jD"
-    );
+  const labels = props.weightArr.map((w) => {
+    return momentJalaali(w.date, "YYYY-M-DTHH:mm:ss.SSSZ").format("jYY-jM-jD");
   });
 
-  const data = props.weightObj.map((w) => w.weight);
+  console.log("wwwwwwwwwwwwwwwwwwww", props);
+
+  const data = props.weightArr.map((w) => w.value);
 
   dataset.data = data;
 

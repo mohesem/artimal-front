@@ -1,8 +1,8 @@
 const host =
   process.env.REACT_APP_ENV === "dev" ? "localhost:4000" : "194.5.175.201";
 
-export default (data) => {
-  const uri = `http://${host}/api/v0/weight/create`;
+export default (_uri, data) => {
+  const uri = `http://${host}/${_uri}`;
 
   const h = new Headers();
   h.append("Content-Type", "application/json");
@@ -17,11 +17,12 @@ export default (data) => {
     fetch(req)
       .then(async (res) => {
         const json = await res.json();
-        console.log("put new weight on db res ::: ", json);
-        if (res.ok) return resolve(json);
-        reject(json);
+        console.log(json);
+        if (res.ok) resolve(json);
+        else reject(json);
       })
       .catch((err) => {
+        console.log("is errrrrrrror ");
         reject(err);
       });
   });

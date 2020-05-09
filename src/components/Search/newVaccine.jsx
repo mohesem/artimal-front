@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import momentJalaali from "moment-jalaali";
 import DatePicker from "react-datepicker2";
-import { store } from "react-notifications-component";
 import { Typeahead } from "react-bootstrap-typeahead";
+import notification from "../../helpers/notification";
 // reactstrap components
 import {
   Card,
@@ -16,14 +16,23 @@ import {
 } from "reactstrap";
 
 // api
-import putVaccineApi from "API/putVaccine";
+// import putVaccineApi from "API/vaccine/put";
+import ApiPost from "API/post";
 
-const vaccineOptions = ["آگالاکسی", "آبله"];
+const vaccineOptions = [
+  "آنتروتوکسمی",
+  "تب برفکی",
+  "بروسلوز",
+  "آگالاکسی",
+  "شاربن",
+  "آبله",
+  "طاعون نشخوار کنندگان",
+  "قانقاریا",
+];
 
 export default (props) => {
   const [date, setDate] = useState(momentJalaali());
   const [selectedVaccine, setSelectedVaccine] = useState("");
-  const [vaccinePrice, setVaccinePrice] = useState();
 
   const [errors, setErrors] = useState({});
 
@@ -34,9 +43,7 @@ export default (props) => {
       if (!selectedVaccine.length) {
         newErrors.vaccine = "انتخاب واکسن الزامی است";
       }
-      if (!vaccinePrice) {
-        newErrors.price = "ورود قیمت واکسن الزامی است";
-      }
+
       if (!Object.keys(newErrors).length) resolve();
       else if (Object.keys(newErrors).length) reject(newErrors);
     });
@@ -50,60 +57,24 @@ export default (props) => {
         const data = {
           entry: {
             date,
+            createdAt: momentJalaali(),
             vaccine: selectedVaccine,
-            price: vaccinePrice,
             key: props.animalKey,
           },
           token: localStorage.artimal,
         };
 
-        putVaccineApi(data)
+        ApiPost("api/v0/vaccine", data)
           .then((res) => {
             console.log(res);
-            store.addNotification({
-              // title: "Wonderful!",
-              message: (
-                <>
-                  <br />
-                  <p>{res.result}</p>
-                </>
-              ),
-              type: "success",
-              insert: "bottom",
-              container: "bottom-left",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-                showIcon: true,
-              },
-            });
-            setSelectedVaccine("");
-            // TODO: froce update
+            notification(res.result, "success");
+            // TODO:clear vaccine input
+            setSelectedVaccine([""]);
             props.forceUpdate();
           })
           .catch((err) => {
             console.log(err);
-            store.addNotification({
-              // title: "Wonderful!",
-              message: (
-                <>
-                  <br />
-                  <p>{err.error}</p>
-                </>
-              ),
-              type: "danger",
-              insert: "bottom",
-              container: "bottom-left",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-                showIcon: true,
-              },
-            });
+            notification(err.error, "danger");
           });
       })
       .catch((err) => {
@@ -130,7 +101,7 @@ export default (props) => {
           </FormGroup>
         </FormGroup>
         <FormGroup>
-          <Label>بیماری</Label>
+          <Label>واکسن</Label>
           <Typeahead
             className="typeahead"
             id="vaccine-typeahead"
@@ -142,22 +113,6 @@ export default (props) => {
           />
           {errors.vaccine ? (
             <p className="error-text-form">{errors.vaccine}</p>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <Label>قیمت</Label>
-          <FormGroup>
-            <Input
-              placeholder="به تومان"
-              value={vaccinePrice}
-              onChange={(e) => {
-                setVaccinePrice(e.target.value);
-              }}
-              type="number"
-            />
-          </FormGroup>
-          {errors.price ? (
-            <p className="error-text-form">{errors.price}</p>
           ) : null}
         </FormGroup>
         <FormGroup>

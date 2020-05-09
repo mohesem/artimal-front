@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import momentJalaali from "moment-jalaali";
 import DatePicker from "react-datepicker2";
+import notification from "helpers/notification";
 import {
   Button,
   Modal,
@@ -18,12 +19,11 @@ import {
 } from "reactstrap";
 
 // api
-import readAnimalApi from "../../API/readAnimal";
-import getNewKeyApi from "../../API/getNewKey";
-import putAnimalAPI from "../../API/putAnimal";
-
-// component
-import { store } from "react-notifications-component";
+import readAnimalApi from "API/readAnimal";
+import ApiGet from "API/get";
+import ApiPost from "API/post";
+// import putAnimalAPI from "API/putAnimal";
+// import getActivePregnancy from "API/pregnancy/getActive";
 
 export default (props) => {
   /* -------------------------------------------------------------------------- */
@@ -38,6 +38,8 @@ export default (props) => {
   const [race, setRace] = useState("");
   const [fatherKey, setFatherKey] = useState("");
   const [motherKey, setMotherKey] = useState("");
+  const [gene, setGene] = useState("");
+  const [mother, setMother] = useState();
 
   // NOTE: 0 is male
   // NOTE: 1 is female
@@ -62,6 +64,7 @@ export default (props) => {
     motherKey: {},
     type: {},
     race: {},
+    gene: {},
   });
 
   const [fatherOptions, setFatherOptions] = useState([]);
@@ -85,8 +88,14 @@ export default (props) => {
       return (
         <>
           {!race ? <option>نژاد دام را انتخاب کنید</option> : null}
+          <option>افشاری</option>
+          <option>قزل افشاری</option>
+          <option>مهربان</option>
+          <option>رامنی</option>
+          <option>لری</option>
+          <option>شال</option>
+          <option>مغانی</option>
           <option>رومانف</option>
-          <option>مرینوس</option>
         </>
       );
     }
@@ -94,8 +103,26 @@ export default (props) => {
       return (
         <>
           {!race ? <option>نژاد دام را انتخاب کنید</option> : null}
-          <option>سانن</option>
-          <option>توگنبرگ</option>
+          <option>ایرانی</option>
+          <option>پاکستانی</option>
+          <option>آلپاین</option>
+        </>
+      );
+    }
+    if (type === "اسب") {
+      return (
+        <>
+          {!race ? <option>نژاد دام را انتخاب کنید</option> : null}
+          <option>سلیمی</option>
+          <option>ایرانی</option>
+        </>
+      );
+    }
+    if (type === "سگ") {
+      return (
+        <>
+          {!race ? <option>نژاد دام را انتخاب کنید</option> : null}
+          <option>ژرمن</option>
         </>
       );
     }
@@ -118,13 +145,16 @@ export default (props) => {
 
   const handleKeyMother = (value) => {
     setMotherKey(value);
-    readAnimalApi({ key: value, sex: 1, type, limit: 10 })
+    ApiGet(`api/v0/animal/stock/10/${value}/1/${type}/${race}`)
       .then((res) => {
-        console.log(res);
-        if (value.length === 6 && res.results[0].key === value) {
+        console.log("mother res is :::::::::", res);
+        if (!res.result.length) {
+          notification("دامی پیدا نشد", "warning");
+          if (motherOptions.length) setMotherOptions([]);
+        } else if (value.length === 6 && res.result[0].key === value) {
           setMotherOptions([]);
         } else {
-          setMotherOptions(res.results);
+          setMotherOptions(res.result);
         }
       })
       .catch((err) => {
@@ -143,7 +173,7 @@ export default (props) => {
     console.log(_key);
   };
 
-  const handleFormValidation = () => {
+  useEffect(() => {
     const newErrors = {};
 
     /* ------------------------------ fatherKey ------------------------------ */
@@ -184,6 +214,7 @@ export default (props) => {
     if (weight.length && errors.weight.isRequired) {
       delete errors.weight.isRequired;
     }
+
     /* --------------------------------- key --------------------------------- */
     if (key.length && errors.key.serverErr) {
       delete errors.key.serverErr;
@@ -208,6 +239,18 @@ export default (props) => {
       delete errors.race.isRequired;
     }
 
+    if (type === "گاو" && errors.race.isRequired) {
+      delete errors.race.isRequired;
+    }
+
+    /* ---------------------------------- gene ---------------------------------- */
+    if (type !== "گوسفند" && errors.gene.isRequired) {
+      delete errors.race.isRequired;
+    }
+
+    if (type === "گوسفند" && gene && errors.gene.isRequired) {
+      delete errors.gene.isRequired;
+    }
     /* ---------------------------------- type ---------------------------------- */
     if (type.length && errors.type.isRequired) {
       delete errors.type.isRequired;
@@ -217,9 +260,21 @@ export default (props) => {
     if (Object.keys(newErrors).length) {
       setErrors({ ...errors, ...newErrors });
     }
-  };
+  }, [
+    entryType,
+    errors,
+    fatherKey,
+    gene,
+    key,
+    motherKey,
+    price,
+    race,
+    touched,
+    type,
+    weight,
+  ]);
 
-  handleFormValidation();
+  // handleFormValidation();
 
   const formValidationOnSubmit = (cb) => {
     const newErrors = {};
@@ -243,15 +298,22 @@ export default (props) => {
       newErrors.weight.isRequired = error;
     }
 
+    /* ---------------------------------- gene ---------------------------------- */
+    if (type === "گوسفند" && !gene && !errors.gene.isRequired) {
+      const error = "ورود ژن برای گوسفند الزامی است";
+      if (!newErrors.gene) newErrors.gene = {};
+      newErrors.gene.isRequired = error;
+    }
+
     /* ---------------------------------- price --------------------------------- */
     if (entryType === 1 && !price.length && !errors.price.isRequired) {
       const error = "ورود قیمت برای دام خریداری شده الزامی است";
-      if (newErrors.price) newErrors.price = {};
+      if (!newErrors.price) newErrors.price = {};
       newErrors.price.isRequired = error;
     }
 
     /* ---------------------------------- race ---------------------------------- */
-    if (!race) {
+    if (!race && type !== "گاو") {
       const error = "ورود نژاد دام الزامی است";
       if (!newErrors.race) newErrors.race = {};
       newErrors.race.isRequired = error;
@@ -290,50 +352,33 @@ export default (props) => {
             sex,
             fatherKey,
             motherKey,
+            gene,
           },
           token: localStorage.artimal,
         };
-        putAnimalAPI(data)
+        ApiPost("api/v0/animal/new", data)
           .then((res) => {
-            store.addNotification({
-              // title: "Wonderful!",
-              message: (
-                <>
-                  <br />
-                  <p>{res.msg}</p>
-                </>
-              ),
-              type: "success",
-              insert: "bottom",
-              container: "bottom-left",
-              animationIn: ["animated", "fadeIn"],
-              animationOut: ["animated", "fadeOut"],
-              dismiss: {
-                duration: 5000,
-                onScreen: true,
-                showIcon: true,
-              },
-            });
+            notification(res.result, "success");
 
             props.handleClose();
+            setKey("");
             // console.log(".....", res);
-            // setToastMsg(res.msg);
-            // setToastShow(true);
-            // setEntryType(0);
-            // setPrice("");
-            // setWeight("");
-            // setKey("");
-            // setType("");
-            // setRace("");
-            // setFatherKey("");
-            // setMotherKey("");
-            // setTouched({
-            //   price: false,
-            //   weight: false,
-            //   key: false,
-            //   fatherKey: false,
-            //   motherKey: false,
-            // });
+
+            setEntryType(0);
+            setPrice("");
+            setWeight("");
+            setKey("");
+            setType("");
+            setRace("");
+            setFatherKey("");
+            setMotherKey("");
+            setTouched({
+              price: false,
+              weight: false,
+              key: false,
+              fatherKey: false,
+              motherKey: false,
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -361,10 +406,12 @@ export default (props) => {
     console.log();
     setGetNewKeyOnProgress(true);
     // let counter = 0;
-    getNewKeyApi()
+
+    ApiGet("api/v0/animal/newKey")
       .then((res) => {
-        console.log(res);
-        const keyString = String(100000 + res.count);
+        console.log("current animal keys", res);
+        const keyString = String(100000 + res.result);
+        setGetNewKeyOnProgress(false);
         setKey(keyString);
       })
       .catch((err) => {
@@ -376,6 +423,50 @@ export default (props) => {
         console.log(err);
       });
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                   effects                                  */
+  /* -------------------------------------------------------------------------- */
+
+  // if (res.details.pregnant !== true) {
+  //   if (!errors.motherKey.isNotPregnant)
+  //     setErrors({
+  //       ...errors,
+  //       motherKey: {
+  //         ...errors.motherKey,
+  //         isNotPregnant: "دام انتخاب شده بارداری فعالی  ندارد",
+  //       },
+  //     });
+  // } else {
+  useEffect(() => {
+    if (motherKey.length === 6) {
+      ApiGet(`api/v0/animal/detail/${motherKey}`)
+        .then((res) => {
+          console.log("res is ::: ", res);
+
+          ApiGet(`api/v0/animal/pregnancy/${motherKey}`).then((res) => {
+            console.log("-------------", res);
+            if (!res.result.length) {
+              notification("بارداری ای برای این دام ثبت نشده هاست", "danger");
+              setFatherKey("");
+            } else setFatherKey(res.result[0].male._key);
+          });
+          console.log("get father key");
+        })
+        .catch((err) => console.log(err));
+      // getActivePregnancy(motherKey)
+      //   .then((res) => {
+      //     console.log(res.result);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      // console.log(
+      //   "get pregnancy active record and fill fa ther key",
+      //   motherKey
+      // );
+    }
+  }, [errors, motherKey]);
 
   /* -------------------------------------------------------------------------- */
   /*                                   return                                   */
@@ -395,6 +486,58 @@ export default (props) => {
         </ModalHeader>
         <ModalBody>
           <Form>
+            <FormGroup>
+              <Label>نوع</Label>
+              <FormGroup>
+                <Input
+                  className="select-input"
+                  type="select"
+                  onChange={(e) => {
+                    setType(e.target.value);
+                    setRace("");
+                  }}
+                  isValid={type}
+                  // isInvalid={Object.keys(errors.type).length || !type}
+                >
+                  {!type ? <option>نوع دام را انتخاب کنید</option> : null}
+                  <option>گوسفند</option>
+                  <option>بز</option>
+                  <option>اسب</option>
+                  <option>گاو</option>
+                  <option>سگ</option>
+                </Input>
+              </FormGroup>
+              {Object.keys(errors.type).map((name, i) => {
+                return (
+                  <p className="error-text-form" key={`type${i}`}>
+                    {errors.type[name]}
+                  </p>
+                );
+              })}
+            </FormGroup>
+            <FormGroup>
+              <Label>نژاد</Label>
+              <FormGroup>
+                <Input
+                  className="select-input"
+                  type="select"
+                  disabled={!type || type === "گاو"}
+                  value={race}
+                  onChange={(e) => setRace(e.target.value)}
+                  isValid={type && race}
+                  // isInvalid={type && (Object.keys(errors.race).length || !race)}
+                >
+                  {handleRace()}
+                </Input>
+              </FormGroup>
+              {Object.keys(errors.race).map((name, i) => {
+                return (
+                  <p className="error-text-form" key={`race${i}`}>
+                    {errors.race[name]}
+                  </p>
+                );
+              })}
+            </FormGroup>
             <FormGroup>
               <Label>نحوه ی ورود</Label>
               <div style={{ display: "flex" }}>
@@ -455,59 +598,36 @@ export default (props) => {
                 </FormGroup>
               </div>
             </FormGroup>
-            <FormGroup>
-              <Label>نوع</Label>
+
+            {type === "گوسفند" ? (
               <FormGroup>
-                <Input
-                  className="select-input"
-                  type="select"
-                  onChange={(e) => {
-                    setType(e.target.value);
-                    setRace("");
-                  }}
-                  isValid={type}
-                  // isInvalid={Object.keys(errors.type).length || !type}
-                >
-                  {!type ? <option>نوع دام را انتخاب کنید</option> : null}
-                  <option>گوسفند</option>
-                  <option>بز</option>
-                  <option>اسب</option>
-                  <option>گاو</option>
-                </Input>
+                <Label>ژن</Label>
+                <FormGroup>
+                  <Input
+                    className="select-input"
+                    type="select"
+                    value={gene}
+                    onChange={(e) => setGene(e.target.value)}
+                    // isValid={type && race}
+                    // isInvalid={type && (Object.keys(errors.race).length || !race)}
+                  >
+                    {!gene ? <option>ژن دام را انتخاب کنید</option> : null}
+                    <option>معمولی</option>
+                    <option>هترو</option>
+                    <option>همو</option>ٌ
+                  </Input>
+                </FormGroup>
+                {Object.keys(errors.gene).map((name, i) => {
+                  return (
+                    <p className="error-text-form" key={`race${i}`}>
+                      {errors.gene[name]}
+                    </p>
+                  );
+                })}
               </FormGroup>
-              {Object.keys(errors.type).map((name, i) => {
-                return (
-                  <p className="error-text-form" key={`type${i}`}>
-                    {errors.type[name]}
-                  </p>
-                );
-              })}
-            </FormGroup>
+            ) : null}
             <FormGroup>
-              <Label>نژاد</Label>
-              <FormGroup>
-                <Input
-                  className="select-input"
-                  type="select"
-                  disabled={!type}
-                  value={race}
-                  onChange={(e) => setRace(e.target.value)}
-                  isValid={type && race}
-                  // isInvalid={type && (Object.keys(errors.race).length || !race)}
-                >
-                  {handleRace()}
-                </Input>
-              </FormGroup>
-              {Object.keys(errors.race).map((name, i) => {
-                return (
-                  <p className="error-text-form" key={`race${i}`}>
-                    {errors.race[name]}
-                  </p>
-                );
-              })}
-            </FormGroup>
-            <FormGroup>
-              <Label>{entryType === 1 ? "تاریخ خرید" : "تاریخ تولد"}</Label>
+              <Label>"تاریخ تولد"</Label>
               <FormGroup>
                 <DatePicker
                   isGregorian={false}
@@ -520,61 +640,9 @@ export default (props) => {
             {entryType === 0 ? (
               <>
                 <FormGroup>
-                  <Label>پلاک پدر</Label>
-                  <Input
-                    disabled={!type || !race}
-                    placeholder="پلاک پدر"
-                    value={fatherKey}
-                    onChange={(e) => {
-                      handleKeyFather(e.target.value);
-                      handleTouched("fatherKey");
-                    }}
-                    isValid={
-                      type &&
-                      race &&
-                      touched.fatherKey &&
-                      !Object.keys(errors.fatherKey).length
-                    }
-                    // isInvalid={
-                    //   type &&
-                    //   race &&
-                    //   (Object.keys(errors.fatherKey).length || !fatherKey)
-                    // }
-                    type="text"
-                  />
-                  {fatherOptions.length ? (
-                    <ListGroup className="input-options">
-                      {fatherOptions.map((o, i) => {
-                        return (
-                          <ListGroupItem
-                            key={`listItem${i}`}
-                            action
-                            onClick={() => handleFatherKeySelect(o.key)}
-                            // variant={i % 2 === 0 ? "info" : "primary"}
-                            type="button"
-                          >
-                            <Row>
-                              <Col>{o.key}</Col>
-                              <Col>{o.type}</Col>
-                              <Col>{o.race}</Col>
-                            </Row>
-                          </ListGroupItem>
-                        );
-                      })}
-                    </ListGroup>
-                  ) : null}
-                  {Object.keys(errors.fatherKey).map((name, i) => {
-                    return (
-                      <p className="error-text-form" key={`fatherKey${i}`}>
-                        {errors.fatherKey[name]}
-                      </p>
-                    );
-                  })}
-                </FormGroup>
-                <FormGroup>
                   <Label>پلاک مادر</Label>
                   <Input
-                    disabled={!type || !race}
+                    disabled={!type || (type !== "گاو" && !race)}
                     placeholder="پلاک مادر"
                     value={motherKey}
                     onChange={(e) => {
@@ -623,6 +691,58 @@ export default (props) => {
                     );
                   })}
                 </FormGroup>
+                <FormGroup>
+                  <Label>پلاک پدر</Label>
+                  <Input
+                    disabled
+                    placeholder="پلاک پدر"
+                    value={fatherKey}
+                    onChange={(e) => {
+                      handleKeyFather(e.target.value);
+                      handleTouched("fatherKey");
+                    }}
+                    isValid={
+                      type &&
+                      race &&
+                      touched.fatherKey &&
+                      !Object.keys(errors.fatherKey).length
+                    }
+                    // isInvalid={
+                    //   type &&
+                    //   race &&
+                    //   (Object.keys(errors.fatherKey).length || !fatherKey)
+                    // }
+                    type="text"
+                  />
+                  {fatherOptions.length ? (
+                    <ListGroup className="input-options">
+                      {fatherOptions.map((o, i) => {
+                        return (
+                          <ListGroupItem
+                            key={`listItem${i}`}
+                            action
+                            onClick={() => handleFatherKeySelect(o.key)}
+                            // variant={i % 2 === 0 ? "info" : "primary"}
+                            type="button"
+                          >
+                            <Row>
+                              <Col>{o.key}</Col>
+                              <Col>{o.type}</Col>
+                              <Col>{o.race}</Col>
+                            </Row>
+                          </ListGroupItem>
+                        );
+                      })}
+                    </ListGroup>
+                  ) : null}
+                  {Object.keys(errors.fatherKey).map((name, i) => {
+                    return (
+                      <p className="error-text-form" key={`fatherKey${i}`}>
+                        {errors.fatherKey[name]}
+                      </p>
+                    );
+                  })}
+                </FormGroup>
               </>
             ) : null}
             {entryType === 1 ? (
@@ -651,7 +771,7 @@ export default (props) => {
               </FormGroup>
             ) : null}
             <FormGroup>
-              <Label>وزن</Label>
+              <Label>{entryType === 0 ? "وزن تولد" : "وزن هنگام ورود"}</Label>
               <FormGroup>
                 <Input
                   placeholder="به کیلوگرم"

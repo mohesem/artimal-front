@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import notification from "helpers/notification";
 // reactstrap components
 import {
   FormGroup,
@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 
 // api
-import searchKeyFromStartApi from "../../API/readAnimal";
+import ApiGet from "API/get";
 
 export default (props) => {
   /* -------------------------------------------------------------------------- */
@@ -36,14 +36,39 @@ export default (props) => {
     setKey(value);
     if (!value) {
       setOptions([]);
-    } else {
-      searchKeyFromStartApi({ key: value, entryType, sex })
+    } else if (value.length === 6) {
+      ApiGet(`api/v0/animal/stock/10/${value}`)
         .then((res) => {
-          setOptions(res.results);
+          console.log("__--__--__--__", res.result[0], { res });
+          setOptions([]);
+          setKey(res.result[0].key);
+          props.updateKey(res.result[0].key);
+        })
+        .catch((err) => {
+          console.log("__--__--__--__", { err });
+        });
+    } else {
+      ApiGet(`api/v0/animal/stock/10/${value}`)
+        .then((res) => {
+          console.log(res);
+          if (!res.result.length) {
+            notification("دامی پیدا نشد", "warning");
+            if (options.length) setOptions([]);
+          } else {
+            setOptions(res.result);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
+
+      // searchKeyFromStartApi({ key: value, entryType, sex })
+      //   .then((res) => {
+      //     setOptions(res.results);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     }
   };
 
@@ -76,7 +101,7 @@ export default (props) => {
         <CardTitle tag="h6">جست و جو</CardTitle>
       </CardHeader>
       <CardBody>
-        <FormGroup>
+        {/* <FormGroup>
           <Label>نحوه ی ورود</Label>
           <div style={{ display: "flex" }}>
             <FormGroup check>
@@ -111,7 +136,7 @@ export default (props) => {
             </FormGroup>
             <FormGroup>
               <Button
-                className="icon-button icon-button-danger"
+                className="icon-button-round icon-button-danger"
                 type="button"
                 color="danger"
                 size="small"
@@ -147,7 +172,7 @@ export default (props) => {
             </FormGroup>
             <FormGroup>
               <Button
-                className="icon-button icon-button-danger"
+                className="icon-button-round icon-button-danger"
                 type="button"
                 color="danger"
                 size="small"
@@ -157,7 +182,8 @@ export default (props) => {
               </Button>
             </FormGroup>
           </div>
-        </FormGroup>
+        </FormGroup> */}
+
         <FormGroup>
           <Input
             placeholder="پلاک دام را وارد کنید"

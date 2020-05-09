@@ -4,7 +4,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch } from "react-router-dom";
 
 import DemoNavbar from "components/Navbars/DemoNavbar.jsx";
-import Footer from "components/Footer/Footer.jsx";
+// import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 // import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
@@ -72,7 +72,7 @@ export default (props) => {
             );
           })}
         </Switch>
-        <Footer fluid />
+        {/* <Footer fluid /> */}
       </div>
       {/* <FixedPlugin
         bgColor={state.backgroundColor}

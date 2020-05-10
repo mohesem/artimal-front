@@ -22,7 +22,7 @@ import Search from "views/Search.jsx";
 import Typography from "views/Typography.jsx";
 import TableList from "views/Tables.jsx";
 import Logs from "views/Logs.jsx";
-import UserPage from "views/User.jsx";
+import User from "views/User.jsx";
 import UpgradeToPro from "views/Upgrade.jsx";
 
 var routes = [
@@ -47,13 +47,13 @@ var routes = [
     component: Logs,
     layout: "/admin",
   },
-  // {
-  //   path: "/notifications",
-  //   name: "Notifications",
-  //   icon: "nc-icon nc-bell-55",
-  //   component: Notifications,
-  //   layout: "/admin",
-  // },
+  {
+    path: "/user",
+    name: "کاربران",
+    icon: "nc-icon nc-single-02",
+    component: User,
+    layout: "/admin",
+  },
   // {
   //   path: "/user-page",
   //   name: "User Profile",

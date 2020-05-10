@@ -168,7 +168,10 @@ export default () => {
     <div className="content">
       <Row>
         <Col md="6">
-          <Search updateKey={handleUpdateKey} />
+          <Search
+            updateKey={handleUpdateKey}
+            updateSelectedAnimal={setSelectedAnimal}
+          />
           <Details
             selectedAnimal={selectedAnimal}
             updateTool={handleUpdateTool}

@@ -23,37 +23,49 @@ export default (props) => {
   /* -------------------------------------------------------------------------- */
   /*                                   states                                   */
   /* -------------------------------------------------------------------------- */
-  const [entryType, setEntryType] = useState(undefined);
-  const [sex, setSex] = useState(undefined);
+  const [type, setType] = useState("همه");
+  const [entryType, setEntryType] = useState("");
+  const [sex, setSex] = useState("");
   const [key, setKey] = useState("");
   const [options, setOptions] = useState([]);
   //   const [selectedAnimal, setSelectedAnimal] = useState({});
 
   /* -------------------------------------------------------------------------- */
-  /*                                  handlers                                  */
+  /*                                   effects                                  */
   /* -------------------------------------------------------------------------- */
-  const handleKey = (value) => {
-    setKey(value);
-    if (!value) {
-      setOptions([]);
-    } else if (value.length === 6) {
-      ApiGet(`api/v0/animal/stock/10/${value}`)
+  useEffect(() => {
+    const _type = type !== "همه" ? type : "_";
+    const _sex = sex ? sex : "_";
+    const _entryType = entryType ? entryType : "_";
+
+    console.log({ _type, _sex, _entryType });
+
+    console.log("key length is ::: ", key.length);
+    if (key.length > 5) {
+      console.log("get the animal ");
+      ApiGet(`api/v0/animal/stock/1/${key}/${_sex}/${_type}/${_entryType}`)
         .then((res) => {
-          console.log("__--__--__--__", res.result[0], { res });
-          setOptions([]);
-          setKey(res.result[0].key);
-          props.updateKey(res.result[0].key);
+          if (!res.result.length) {
+            notification("دامی با این پلاک پیدا نشد", "warning");
+            props.updateKey("");
+            props.updateSelectedAnimal({});
+          } else {
+            console.log("__--__--__--__", res.result[0], { res });
+            setOptions([]);
+            setKey(res.result[0].key);
+            props.updateKey(res.result[0].key);
+          }
         })
         .catch((err) => {
           console.log("__--__--__--__", { err });
         });
     } else {
-      ApiGet(`api/v0/animal/stock/10/${value}`)
+      ApiGet(`api/v0/animal/stock/10/${key}/${_sex}/${_type}/${_entryType}`)
         .then((res) => {
           console.log(res);
           if (!res.result.length) {
             notification("دامی پیدا نشد", "warning");
-            if (options.length) setOptions([]);
+            setOptions([]);
           } else {
             setOptions(res.result);
           }
@@ -61,17 +73,12 @@ export default (props) => {
         .catch((err) => {
           console.log(err);
         });
-
-      // searchKeyFromStartApi({ key: value, entryType, sex })
-      //   .then((res) => {
-      //     setOptions(res.results);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     }
-  };
+  }, [entryType, key, props, sex, type]);
 
+  /* -------------------------------------------------------------------------- */
+  /*                                  handlers                                  */
+  /* -------------------------------------------------------------------------- */
   const handleNewEntry = (_key) => {
     setOptions([]);
     setKey(_key);
@@ -101,7 +108,30 @@ export default (props) => {
         <CardTitle tag="h6">جست و جو</CardTitle>
       </CardHeader>
       <CardBody>
-        {/* <FormGroup>
+        <FormGroup>
+          <Label>نوع</Label>
+          <FormGroup>
+            <Input
+              className="select-input"
+              type="select"
+              onChange={(e) => {
+                setType(e.target.value);
+                // setRace("");
+              }}
+              isValid={type}
+              // isInvalid={Object.keys(errors.type).length || !type}
+            >
+              <option>همه</option>
+              <option>گوسفند</option>
+              <option>بز</option>
+              <option>اسب</option>
+              <option>گاو</option>
+              <option>سگ</option>
+            </Input>
+          </FormGroup>
+        </FormGroup>
+
+        <FormGroup>
           <Label>نحوه ی ورود</Label>
           <div style={{ display: "flex" }}>
             <FormGroup check>
@@ -182,13 +212,13 @@ export default (props) => {
               </Button>
             </FormGroup>
           </div>
-        </FormGroup> */}
+        </FormGroup>
 
         <FormGroup>
           <Input
             placeholder="پلاک دام را وارد کنید"
             value={key}
-            onChange={(e) => handleKey(e.target.value)}
+            onChange={(e) => setKey(e.target.value)}
             type="text"
           />
           {options.length ? (

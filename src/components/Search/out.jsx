@@ -39,6 +39,11 @@ import ApiGet from "API/get";
 //   "تب برفکی",
 // ];
 
+const formatter = new Intl.NumberFormat("sv-SE", {
+  style: "decimal",
+  currency: "SEK",
+});
+
 export default (props) => {
   const [mode, setMode] = useState(0);
 
@@ -247,9 +252,9 @@ export default (props) => {
               <FormGroup>
                 <Input
                   placeholder="به تومان"
-                  value={sellPrice}
+                  value={formatter.format(sellPrice)}
                   onChange={(e) => {
-                    setSellPrice(e.target.value);
+                    setSellPrice(e.target.value.replace(/\s/g, ""));
                   }}
                   type="number"
                 />

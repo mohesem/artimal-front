@@ -25,6 +25,11 @@ import ApiPost from "API/post";
 // import putAnimalAPI from "API/putAnimal";
 // import getActivePregnancy from "API/pregnancy/getActive";
 
+const formatter = new Intl.NumberFormat("sv-SE", {
+  style: "decimal",
+  currency: "SEK",
+});
+
 export default (props) => {
   /* -------------------------------------------------------------------------- */
   /*                                   states                                   */
@@ -751,14 +756,15 @@ export default (props) => {
                 <FormGroup>
                   <Input
                     placeholder="به تومان"
-                    value={price}
+                    value={formatter.format(price)}
                     onChange={(e) => {
-                      setPrice(e.target.value);
+                      console.log("=====", e.target.value.replace(/\s/g, ""));
+                      setPrice(e.target.value.replace(/\s/g, ""));
                       handleTouched("price");
                     }}
                     isValid={touched.price && !Object.keys(errors.price).length}
                     // isInvalid={Object.keys(errors.price).length || !price}
-                    type="number"
+                    type="text"
                   />
                 </FormGroup>
                 {Object.keys(errors.price).map((name, i) => {

@@ -49,7 +49,8 @@ export default (props) => {
         .then((res) => {
           console.log(res);
           if (!res.result.length) {
-            notification("دامی پیدا نشد", "warning");
+            // TODO: find another way to inform user that no result had beeb found on search
+            // notification("دامی پیدا نشد", "warning");
             setOptions([]);
           } else {
             setOptions(res.result);

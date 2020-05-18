@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import momentJalaali from "moment-jalaali";
 
 // reactstrap components
-import { Table, Row, Col, Button } from "reactstrap";
+import { Table, Row, Col, Button, FormGroup, Label, Input } from "reactstrap";
 
 // API
 import ApiGet from "API/get";
@@ -11,6 +11,10 @@ export default () => {
   const [logs, setLogs] = useState([]);
   const [page, setpage] = useState();
   const [uri, setUri] = useState("");
+
+  // const [key, setKey] = useState("");
+  const [value, setValue] = useState("همه");
+  const [collection, setCollection] = useState("همه");
 
   if (typeof page !== "number") setpage(0);
 
@@ -27,8 +31,50 @@ export default () => {
   }, [uri]);
 
   useEffect(() => {
-    setUri(`api/v0/logs/pagination/20/${page}`);
-  }, [page]);
+    const _collection = () => {
+      switch (collection) {
+        case "همه":
+          return null;
+        case "وزن":
+          return "weight";
+        case "شیر":
+          return "milk";
+        case "بیماری":
+          return "disease";
+        case "درآمد":
+          return "income";
+        case "واکسن":
+          return "vaccine";
+        case "بارداری":
+          return "pregnancy";
+        case "مخارج":
+          return "expense";
+        default:
+          break;
+      }
+    };
+    // <option>ساخت</option>
+    // <option>بروزرسانی</option>
+    // <option>پاک کردن</option>
+
+    const _value = () => {
+      switch (value) {
+        case "همه":
+          return null;
+        case "ساخت":
+          return "create";
+        case "بروزرسانی":
+          return "update";
+        case "پاک کردن":
+          return "delete";
+        default:
+          break;
+      }
+    };
+
+    console.log({ _collection: _collection() });
+    setUri(`api/v0/logs/pagination/20/${page}/${_collection()}/${_value()}`);
+  }, [page, collection, value]);
 
   /* -------------------------------------------------------------------------- */
   /*                                  handlers                                  */
@@ -51,23 +97,45 @@ export default () => {
   return (
     <div className="content">
       <Row>
-        <Col md="12">
-          <Button
-            type="button"
-            onClick={() => setpage(page + 1)}
-            color="primary"
-          >
-            بعدی
-          </Button>
-          {page >= 1 ? (
-            <Button
-              type="button"
-              onClick={() => setpage(page - 1)}
-              color="secondary"
-            >
-              قبلی
-            </Button>
-          ) : null}
+        <Col md="4">
+          <FormGroup>
+            <Label>کالکشن</Label>
+            <FormGroup>
+              <Input
+                className="select-input"
+                type="select"
+                value={collection}
+                onChange={(e) => setCollection(e.target.value)}
+              >
+                <option>همه</option>
+                <option>وزن</option>
+                <option>شیر</option>
+                <option>بیماری</option>
+                <option>درآمد</option>
+                <option>واکسن</option>
+                <option>بارداری</option>
+                <option>مخارج</option>
+              </Input>
+            </FormGroup>
+          </FormGroup>
+        </Col>
+        <Col md="4">
+          <FormGroup>
+            <Label>اقدام</Label>
+            <FormGroup>
+              <Input
+                className="select-input"
+                type="select"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              >
+                <option>همه</option>
+                <option>ساخت</option>
+                <option>بروزرسانی</option>
+                <option>پاک کردن</option>
+              </Input>
+            </FormGroup>
+          </FormGroup>
         </Col>
         <Col md="12">
           {logs.length ? (
@@ -85,6 +153,24 @@ export default () => {
             </Table>
           ) : null}
           <p>{page}</p>
+        </Col>
+        <Col md="12">
+          <Button
+            type="button"
+            onClick={() => setpage(page + 1)}
+            color="primary"
+          >
+            بعدی
+          </Button>
+          {page >= 1 ? (
+            <Button
+              type="button"
+              onClick={() => setpage(page - 1)}
+              color="secondary"
+            >
+              قبلی
+            </Button>
+          ) : null}
         </Col>
       </Row>
     </div>

@@ -97,6 +97,7 @@ export default (props) => {
         value: disease,
         date,
         key: props.selectedItem._key,
+        animalKey: props.animalKey,
         comment,
       },
       token: localStorage.artimal,

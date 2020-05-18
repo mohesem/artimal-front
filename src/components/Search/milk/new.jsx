@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 
 // api
-import putMilkApi from "API/putMilk";
+import ApiPost from "API/post";
 
 export default (props) => {
   const [date, setDate] = useState(momentJalaali());
@@ -30,14 +30,14 @@ export default (props) => {
     } else {
       const data = {
         entry: {
-          weight: milkWeight,
+          value: milkWeight,
           date: date,
           key: props.animalKey,
         },
         token: localStorage.artimal,
       };
 
-      putMilkApi(data)
+      ApiPost("api/v0/milk", data)
         .then((res) => {
           if (milkWeightError) setMilkWeightError("");
           console.log(res);
@@ -46,7 +46,11 @@ export default (props) => {
         })
         .catch((err) => {
           console.log("errrrrrrrrrrr", err);
-          notification(err.error, "danger");
+          if (err.error) {
+            notification(err.error, "danger");
+          } else {
+            notification("خطا در برقراری ارتباط", "danger");
+          }
         });
 
       console.log(data);

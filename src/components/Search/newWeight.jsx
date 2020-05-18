@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import momentJalaali from "moment-jalaali";
 import DatePicker from "react-datepicker2";
 import notifications from "../../helpers/notification";
@@ -22,6 +22,18 @@ export default (props) => {
   const [date, setDate] = useState(momentJalaali());
   const [weight, setWeight] = useState("");
   const [weightError, setWeightError] = useState("");
+  const [stopFeedingMilk, setStopFeedingMilk] = useState();
+  const [check, setCheck] = useState(false);
+
+  useEffect(() => {
+    const findStopFeedingMilk = props.weightArr.filter(
+      (record) => record.stopFeedingMilk
+    );
+    console.log(":::::", findStopFeedingMilk);
+
+    if (findStopFeedingMilk.length)
+      setStopFeedingMilk(findStopFeedingMilk[0].stopFeedingMilk);
+  }, [props.weightArr]);
 
   const handleSubmit = () => {
     if (weight) {
@@ -31,6 +43,7 @@ export default (props) => {
           createdAt: momentJalaali(),
           value: weight,
           key: props.animalKey,
+          stopFeedingMilk: check,
         },
         token: localStorage.artimal,
       };
@@ -41,7 +54,8 @@ export default (props) => {
         .then((res) => {
           console.log(res);
           notifications(res.result, "success");
-          setWeight(null);
+          setWeight(0);
+          setCheck(false);
           // TODO: froce update
           props.forceUpdate();
         })
@@ -86,6 +100,26 @@ export default (props) => {
             <p className="error-text-form">{weightError}</p>
           </FormGroup>
         </FormGroup>
+        {!stopFeedingMilk ? (
+          <div>
+            <Label
+              check
+              style={{
+                position: "unset",
+                verticalAlign: "middle",
+              }}
+            >
+              <Input
+                check
+                style={{ marginRight: "10" }}
+                type="checkbox"
+                checked={check}
+                onChange={() => setCheck(!check)}
+              />
+              <span style={{ marginRight: 22 }}>گرفتن از شیر</span>
+            </Label>
+          </div>
+        ) : null}
         <FormGroup>
           <Button type="button" color="primary" onClick={handleSubmit}>
             تایید

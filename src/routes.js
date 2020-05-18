@@ -17,13 +17,13 @@
 
 */
 import Dashboard from "views/Dashboard.jsx";
-import Notifications from "views/Notifications.jsx";
 import Search from "views/Search.jsx";
-import Typography from "views/Typography.jsx";
-import TableList from "views/Tables.jsx";
+import Errors from "views/Errors.jsx";
 import Logs from "views/Logs.jsx";
 import User from "views/User.jsx";
-import UpgradeToPro from "views/Upgrade.jsx";
+import Stock from "views/Stock.jsx";
+// import Notifications from "views/Notifications.jsx";
+// import UpgradeToPro from "views/Upgrade.jsx";
 
 var routes = [
   {
@@ -52,6 +52,20 @@ var routes = [
     name: "کاربران",
     icon: "nc-icon nc-single-02",
     component: User,
+    layout: "/admin",
+  },
+  {
+    path: "/errors",
+    name: "ارورها",
+    icon: "nc-icon nc-alert-circle-i",
+    component: Errors,
+    layout: "/admin",
+  },
+  {
+    path: "/stock",
+    name: "موجودی",
+    icon: "nc-icon nc-bell-55",
+    component: Stock,
     layout: "/admin",
   },
   // {

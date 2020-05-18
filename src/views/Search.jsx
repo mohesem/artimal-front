@@ -13,11 +13,15 @@ import VaccineTable from "components/Search/vaccineTable";
 import NewVaccine from "components/Search/newVaccine";
 import Out from "components/Search/out";
 import OutHistory from "components/Search/outHistory";
-import Milk from "components/Search/milk";
+
 import NewPregnancy from "components/Search/newPregnancy";
 import HistoryPregnany from "components/Search/historyPregnancy";
+// disease
 import NewDisease from "components/Search/disease/new";
 import HistoryDisease from "components/Search/disease/history";
+// milk
+import Milk from "components/Search/milk/new";
+import MilkTable from "components/Search/milk/tables";
 
 //api
 // import readVaccineApi from "API/vaccine/read";
@@ -40,6 +44,8 @@ export default () => {
   // pregnancy
   const [pregnancyRecords, setPregnancyRecords] = useState([]);
 
+  const [milkRecords, setMilkRecords] = useState([]);
+
   /* -------------------------------------------------------------------------- */
   /*                                  handlers                                  */
   /* -------------------------------------------------------------------------- */
@@ -57,11 +63,6 @@ export default () => {
     setUpdate(true);
   };
 
-  // const handleUpdatePregnancy = (_key) => {
-  //   console.log("-----------------", "key is ::", key);
-  //   pregnancyRecords.filter((p) => p.pregnancy._key !== _key);
-  // };
-
   /* -------------------------------------------------------------------------- */
   /*                                 conditions                                 */
   /* -------------------------------------------------------------------------- */
@@ -78,7 +79,6 @@ export default () => {
         .catch((err) => {
           console.log(err);
         });
-      // readWeightApi({ animalKeys: [key] })
     };
 
     const getVaccineRecords = () => {
@@ -115,6 +115,17 @@ export default () => {
         });
     };
 
+    const getMilkHistory = () => {
+      ApiGet(`api/v0/milk/${key}`)
+        .then((res) => {
+          console.log("res is for milk :: ", res);
+          setMilkRecords(res.result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
     if (tool === "weight") {
       getWeightRecords();
     }
@@ -126,6 +137,9 @@ export default () => {
     }
     if (tool === "disease") {
       getDiseaseHistory();
+    }
+    if (tool === "milk") {
+      getMilkHistory();
     }
     if (tool === "exit" && selectedAnimal.exit) {
       // getOutApi(selectedAnimal._key)
@@ -141,21 +155,24 @@ export default () => {
   }, [key, selectedAnimal, tool, update]);
 
   useEffect(() => {
-    ApiGet(`api/v0/animal/detail/${key}`)
-      .then((res) => {
-        console.log("...............", res);
-        setSelectedAnimal(res.details);
-        // key: res.details._key,
-        // type: res.details.type,
-        // race: res.details.race,
-        // entryType: res.details.entryType,
-        // entryDate: res.details.entryDate,
-        // birthDate: res.details.birthDate,
-        // sex: res.details.sex,
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (key) {
+      console.log("+++++++++++==================++++++++++++++++++++======");
+      ApiGet(`api/v0/animal/detail/${key}`)
+        .then((res) => {
+          console.log("...............", res);
+          setSelectedAnimal(res.details);
+          // key: res.details._key,
+          // type: res.details.type,
+          // race: res.details.race,
+          // entryType: res.details.entryType,
+          // entryDate: res.details.entryDate,
+          // birthDate: res.details.birthDate,
+          // sex: res.details.sex,
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [key, update]);
 
   console.log("sellected animal is ::: ", selectedAnimal);
@@ -171,6 +188,7 @@ export default () => {
           <Search
             updateKey={handleUpdateKey}
             updateSelectedAnimal={setSelectedAnimal}
+            selectedAnimal={selectedAnimal}
           />
           <Details
             selectedAnimal={selectedAnimal}
@@ -181,15 +199,27 @@ export default () => {
           {tool === "weight" ? (
             <>
               <WeightRecord weightArr={weight} />
-              <WeightTable weightArr={weight} forceUpdate={handleUpdate} />
+              <WeightTable
+                weightArr={weight}
+                forceUpdate={handleUpdate}
+                animalKey={key}
+              />
               {selectedAnimal.exit ? null : (
-                <NewWeight animalKey={key} forceUpdate={handleUpdate} />
+                <NewWeight
+                  animalKey={key}
+                  weightArr={weight}
+                  forceUpdate={handleUpdate}
+                />
               )}
             </>
           ) : null}
           {tool === "vaccine" ? (
             <>
-              <VaccineTable vaccineArr={vaccine} forceUpdate={handleUpdate} />
+              <VaccineTable
+                vaccineArr={vaccine}
+                forceUpdate={handleUpdate}
+                animalKey={key}
+              />
               {selectedAnimal.exit ? null : (
                 <NewVaccine animalKey={key} forceUpdate={handleUpdate} />
               )}
@@ -204,15 +234,20 @@ export default () => {
               )}
             </>
           ) : null}
-          {/* {tool === "milk" ? (
+          {tool === "milk" ? (
             <>
-              {selectedAnimal.out ? (
-                <p>show history</p>
-              ) : (
-                <Milk animalKey={key} forceUpdate={handleUpdateWeight} />
+              {selectedAnimal.out ? null : (
+                <>
+                  <MilkTable
+                    animalKey={key}
+                    milkRecords={milkRecords}
+                    forceUpdate={handleUpdate}
+                  />
+                  <Milk animalKey={key} forceUpdate={handleUpdate} />
+                </>
               )}
             </>
-          ) : null} */}
+          ) : null}
           {tool === "disease" ? (
             <>
               {selectedAnimal.exit ? (
@@ -225,8 +260,8 @@ export default () => {
                 <>
                   <HistoryDisease
                     diseaseArr={disease}
-                    animalKey={key}
                     forceUpdate={handleUpdate}
+                    animalKey={key}
                   />
                   <NewDisease animalKey={key} forceUpdate={handleUpdate} />
                 </>

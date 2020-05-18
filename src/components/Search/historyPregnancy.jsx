@@ -82,7 +82,7 @@ export default (props) => {
                 <tr>
                   <th>شروع</th>
                   <th>پایان</th>
-                  <th>نر</th>
+                  <th>کد نر</th>
                 </tr>
               </thead>
               <tbody>{renderBody()}</tbody>

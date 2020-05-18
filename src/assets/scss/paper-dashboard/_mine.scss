@@ -118,3 +118,22 @@
   padding-right: 45px;
   padding-left: 0px;
 }
+
+.popover {
+  font-family: inherit;
+}
+
+.popover-danger .popover-header {
+  background: $danger-color;
+  color: $white-color;
+}
+
+.popover-danger .popover-body {
+  background: $danger-color;
+  color: $white-color;
+  font-size: small;
+}
+
+.popover-danger span::after {
+  border-bottom-color: $danger-color !important;
+}

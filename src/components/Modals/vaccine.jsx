@@ -49,7 +49,7 @@ export default (props) => {
   /* -------------------------------------------------------------------------- */
   const handleRemoveRecord = () => {
     ApiDelete(
-      `api/v0/vaccine/${localStorage.artimal}/${props.selectedItem._key}`
+      `api/v0/vaccine/${localStorage.artimal}/${props.selectedItem._key}/${props.animalKey}`
     )
       .then((res) => {
         props.forceUpdate();
@@ -67,6 +67,7 @@ export default (props) => {
         value: vaccine,
         date,
         key: props.selectedItem._key,
+        animalKey: props.animalKey,
       },
       token: localStorage.artimal,
     };

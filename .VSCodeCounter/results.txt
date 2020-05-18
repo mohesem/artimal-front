@@ -1,12 +1,12 @@
-Date : 2020-05-09 21:00:15
+Date : 2020-05-12 13:48:06
 Directory : /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src
-Total : 108 files,  16170 codes, 1137 comments, 1950 blanks, all 19257 lines
+Total : 110 files,  16496 codes, 1078 comments, 1994 blanks, all 19568 lines
 
 Languages
 +------------+------------+------------+------------+------------+------------+
 | language   | files      | code       | comment    | blank      | total      |
 +------------+------------+------------+------------+------------+------------+
-| JavaScript |         56 |      6,218 |        940 |        482 |      7,640 |
+| JavaScript |         58 |      6,544 |        881 |        526 |      7,951 |
 | SCSS       |         47 |      5,434 |        115 |        978 |      6,527 |
 | CSS        |          3 |      4,504 |         82 |        488 |      5,074 |
 | XML        |          2 |         14 |          0 |          2 |         16 |
@@ -16,8 +16,8 @@ Directories
 +--------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                                                                                             | files      | code       | comment    | blank      | total      |
 +--------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                                                                                                |        108 |     16,170 |      1,137 |      1,950 |     19,257 |
-| API                                                                                                                                              |         12 |        300 |          0 |         51 |        351 |
+| .                                                                                                                                                |        110 |     16,496 |      1,078 |      1,994 |     19,568 |
+| API                                                                                                                                              |         11 |        275 |          0 |         47 |        322 |
 | API/pregnancy                                                                                                                                    |          4 |         97 |          0 |         17 |        114 |
 | assets                                                                                                                                           |         50 |      9,938 |        197 |      1,466 |     11,601 |
 | assets/css                                                                                                                                       |          2 |      4,346 |         63 |        457 |      4,866 |
@@ -29,19 +29,21 @@ Directories
 | assets/scss/paper-dashboard/plugins                                                                                                              |          2 |        257 |         16 |         69 |        342 |
 | assets/scss/paper-dashboard/react                                                                                                                |         11 |        341 |          6 |         15 |        362 |
 | assets/scss/paper-dashboard/react/custom                                                                                                         |         10 |        331 |          6 |         14 |        351 |
-| components                                                                                                                                       |         25 |      3,536 |        591 |        303 |      4,430 |
+| components                                                                                                                                       |         28 |      4,109 |        543 |        346 |      4,998 |
 | components/FixedPlugin                                                                                                                           |          1 |        152 |          0 |          4 |        156 |
 | components/Footer                                                                                                                                |          1 |         13 |         43 |          5 |         61 |
-| components/Modals                                                                                                                                |          7 |      1,521 |        245 |        125 |      1,891 |
+| components/Modals                                                                                                                                |          7 |      1,561 |        245 |        126 |      1,932 |
 | components/Navbars                                                                                                                               |          1 |        167 |         35 |         15 |        217 |
-| components/Search                                                                                                                                |         14 |      1,609 |        260 |        149 |      2,018 |
+| components/Search                                                                                                                                |         16 |      1,984 |        195 |        175 |      2,354 |
 | components/Search/disease                                                                                                                        |          2 |        231 |         21 |         21 |        273 |
+| components/Search/milk                                                                                                                           |          3 |        295 |         25 |         27 |        347 |
 | components/Sidebar                                                                                                                               |          1 |         74 |          8 |          5 |         87 |
+| components/user                                                                                                                                  |          1 |        158 |         17 |         16 |        191 |
 | helpers                                                                                                                                          |          1 |         22 |          1 |          2 |         25 |
 | layouts                                                                                                                                          |          1 |         62 |         13 |         11 |         86 |
 | redux                                                                                                                                            |          2 |         18 |          0 |          4 |         22 |
 | variables                                                                                                                                        |          3 |        623 |         39 |         15 |        677 |
-| views                                                                                                                                            |          9 |      1,551 |        237 |         77 |      1,865 |
+| views                                                                                                                                            |          9 |      1,322 |        233 |         82 |      1,637 |
 +--------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 
 Files
@@ -58,7 +60,6 @@ Files
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/API/pregnancy/remove.js                                                   | JavaScript |         24 |          0 |          4 |         28 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/API/put.js                                                                | JavaScript |         26 |          0 |          4 |         30 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/API/putAnimal.js                                                          | JavaScript |         24 |          0 |          4 |         28 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/API/putMilk.js                                                            | JavaScript |         25 |          0 |          4 |         29 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/API/readAnimal.js                                                         | JavaScript |         24 |          0 |          4 |         28 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/app.js                                                                    | JavaScript |         51 |          5 |          9 |         65 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/assets/css/paper-dashboard.css                                            | CSS        |      4,345 |         58 |        456 |      4,859 |
@@ -113,29 +114,32 @@ Files
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/assets/scss/paper-dashboard/react/react-differences.scss                  | SCSS       |         10 |          0 |          1 |         11 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/FixedPlugin/FixedPlugin.jsx                                    | JavaScript |        152 |          0 |          4 |        156 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Footer/Footer.jsx                                              | JavaScript |         13 |         43 |          5 |         61 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/disease.jsx                                             | JavaScript |        142 |         36 |         19 |        197 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/disease.jsx                                             | JavaScript |        143 |         36 |         19 |        198 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/diseaseDetails.jsx                                      | JavaScript |        105 |         29 |          7 |        141 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/newAnimal.jsx                                           | JavaScript |        690 |         86 |         47 |        823 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/newAnimal.jsx                                           | JavaScript |        695 |         86 |         48 |        829 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/newStatusDisease.jsx                                    | JavaScript |        146 |         37 |         11 |        194 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/pregnancy.jsx                                           | JavaScript |        204 |         16 |         19 |        239 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/vaccine.jsx                                             | JavaScript |        119 |         17 |         11 |        147 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/weight.jsx                                              | JavaScript |        115 |         24 |         11 |        150 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/vaccine.jsx                                             | JavaScript |        120 |         17 |         11 |        148 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Modals/weight.jsx                                              | JavaScript |        148 |         24 |         11 |        183 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Navbars/DemoNavbar.jsx                                         | JavaScript |        167 |         35 |         15 |        217 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/details.jsx                                             | JavaScript |        128 |          8 |          6 |        142 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/details.jsx                                             | JavaScript |        134 |          2 |          6 |        142 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/disease/history.jsx                                     | JavaScript |        123 |          9 |         12 |        144 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/disease/new.jsx                                         | JavaScript |        108 |         12 |          9 |        129 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/historyPregnancy.jsx                                    | JavaScript |         87 |          5 |         12 |        104 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/milk.jsx                                                | JavaScript |         87 |          2 |          8 |         97 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/milk/editModal.jsx                                      | JavaScript |        131 |         15 |         12 |        158 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/milk/new.jsx                                            | JavaScript |         91 |          2 |          8 |        101 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/milk/tables.jsx                                         | JavaScript |         73 |          8 |          7 |         88 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/newPregnancy.jsx                                        | JavaScript |        151 |         14 |         11 |        176 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/newVaccine.jsx                                          | JavaScript |        112 |          4 |         11 |        127 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/newWeight.jsx                                           | JavaScript |         86 |          4 |          8 |         98 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/out.jsx                                                 | JavaScript |        381 |         52 |         27 |        460 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/newWeight.jsx                                           | JavaScript |        117 |          4 |         10 |        131 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/out.jsx                                                 | JavaScript |        385 |         52 |         28 |        465 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/outHistory.jsx                                          | JavaScript |         61 |         19 |         11 |         91 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/search.jsx                                              | JavaScript |         98 |        113 |          9 |        220 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/vaccineTable.jsx                                        | JavaScript |         72 |          8 |         10 |         90 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/search.jsx                                              | JavaScript |        208 |         31 |         11 |        250 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/vaccineTable.jsx                                        | JavaScript |         73 |          8 |         10 |         91 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/weightRecord.jsx                                        | JavaScript |         46 |          2 |          8 |         56 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/weightTable.jsx                                         | JavaScript |         69 |          8 |          7 |         84 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Search/weightTable.jsx                                         | JavaScript |         84 |          8 |          9 |        101 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/Sidebar/Sidebar.jsx                                            | JavaScript |         74 |          8 |          5 |         87 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/components/user/newUser.jsx                                               | JavaScript |        158 |         17 |         16 |        191 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/helpers/notification.js                                                   | JavaScript |         22 |          1 |          2 |         25 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/index.js                                                                  | JavaScript |         23 |          0 |          8 |         31 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/layouts/Admin.jsx                                                         | JavaScript |         62 |         13 |         11 |         86 |
@@ -143,18 +147,18 @@ Files
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/logo.svg                                                                  | XML        |          7 |          0 |          1 |          8 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/redux/actions.js                                                          | JavaScript |          6 |          0 |          1 |          7 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/redux/reducers.js                                                         | JavaScript |         12 |          0 |          3 |         15 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/routes.js                                                                 | JavaScript |         32 |         54 |          2 |         88 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/routes.js                                                                 | JavaScript |         39 |         47 |          2 |         88 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/variables/charts.jsx                                                      | JavaScript |        191 |         19 |         11 |        221 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/variables/general.jsx                                                     | JavaScript |         29 |          2 |          2 |         33 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/variables/icons.jsx                                                       | JavaScript |        403 |         18 |          2 |        423 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Dashboard.jsx                                                       | JavaScript |        124 |        138 |          9 |        271 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Login.jsx                                                           | JavaScript |        164 |         10 |         19 |        193 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Logs.jsx                                                            | JavaScript |         79 |          5 |          9 |         93 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Logs.jsx                                                            | JavaScript |         83 |          5 |         10 |         98 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Notifications.jsx                                                   | JavaScript |        269 |          4 |          3 |        276 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Search.jsx                                                          | JavaScript |        194 |         40 |         21 |        255 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Search.jsx                                                          | JavaScript |        236 |         30 |         23 |        289 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Tables.jsx                                                          | JavaScript |        152 |          1 |          4 |        157 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Typography.jsx                                                      | JavaScript |        137 |         19 |          4 |        160 |
 | /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/Upgrade.jsx                                                         | JavaScript |        131 |         19 |          4 |        154 |
-| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/User.jsx                                                            | JavaScript |        301 |          1 |          4 |        306 |
-| Total                                                                                                                                            |            |     16,170 |      1,137 |      1,950 |     19,257 |
+| /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src/views/User.jsx                                                            | JavaScript |         26 |          7 |          6 |         39 |
+| Total                                                                                                                                            |            |     16,496 |      1,078 |      1,994 |     19,568 |
 +--------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -9,28 +9,22 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
   Table,
+  Popover,
+  PopoverHeader,
+  PopoverBody,
 } from "reactstrap";
 
 // api
-import readPregnancyDetailsApi from "../../API/pregnancy/readDetails";
-import removePregnancyApi from "../../API/pregnancy/remove";
+// import readPregnancyDetailsApi from "../../API/pregnancy/readDetails";
+// import removePregnancyApi from "../../API/pregnancy/remove";
+import ApiGet from "API/get";
+import ApiDelete from "API/delete";
 
 export default (props) => {
-  const [pregnancyDetails, setPregnancyDetails] = useState();
+  const [pregnancyDetails, setPregnancyDetails] = useState([]);
   const [femaleKey, setFemaleKey] = useState("");
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   /* -------------------------------------------------------------------------- */
   /*                                   states                                   */
@@ -39,133 +33,19 @@ export default (props) => {
   /* -------------------------------------------------------------------------- */
   /*                                  handlers                                  */
   /* -------------------------------------------------------------------------- */
-  const handleBody = () => {
-    if (pregnancyDetails) {
-      const female = pregnancyDetails.filter((e) => e.parent.sex === 1);
-      console.log("------------", female);
-      if (femaleKey !== female[0].parent._key)
-        setFemaleKey(female[0].parent._key);
-
-      const male = pregnancyDetails.filter((e) => e.parent.sex === 0);
-      console.log("male", male, "female", female);
-
-      const createdAtJdate = momentJalaali(
-        props.selectedItem.pregnancy.startedAt,
-        "YYYY-M-DTHH:mm:ss.SSSZ"
-      ).format("jYYYY-jM-jD");
-
-      const finishedAt = () => {
-        if (props.selectedItem.pregnancy.finishedAt) {
-          momentJalaali(
-            props.selectedItem.pregnancy.finishedAt,
-            "YYYY-M-DTHH:mm:ss.SSSZ"
-          ).format("jYYYY-jM-jD");
-        } else {
-          return "در جریان";
-        }
-      };
-
-      const FemaleCard = (
-        <Card className="demo-icons">
-          <CardHeader>
-            <CardTitle tag="h6">ماده</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Table>
-              <thead className="text-primary">
-                <tr>
-                  <th>پلاک</th>
-                  <th>نوع</th>
-                  <th>نژاد</th>
-                </tr>
-              </thead>
-              <tbody>
-                {" "}
-                <tr>
-                  <td>{female[0].parent._key}</td>
-                  <td>{female[0].parent.type}</td>
-                  <td>{female[0].parent.race}</td>
-                </tr>
-              </tbody>
-            </Table>
-          </CardBody>
-        </Card>
-      );
-
-      const MaleCard = (
-        <Card className="demo-icons">
-          <CardHeader>
-            <CardTitle tag="h6">نر</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Table>
-              <thead className="text-primary">
-                <tr>
-                  <th>پلاک</th>
-                  <th>نوع</th>
-                  <th>نژاد</th>
-                </tr>
-              </thead>
-              <tbody>
-                {" "}
-                <tr>
-                  <td>{male[0].parent._key}</td>
-                  <td>{male[0].parent.type}</td>
-                  <td>{male[0].parent.race}</td>
-                </tr>
-              </tbody>
-            </Table>
-          </CardBody>
-        </Card>
-      );
-
-      const DetailCard = (
-        <Card>
-          <CardHeader as="h5">جدول وزن</CardHeader>
-          <CardBody>
-            <Table>
-              <thead className="text-primary">
-                <tr>
-                  <th>شروع</th>
-                  <th>پایان</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{createdAtJdate}</td>
-                  <td>{finishedAt()}</td>
-                </tr>
-              </tbody>
-            </Table>
-          </CardBody>
-        </Card>
-      );
-
-      return (
-        <>
-          {DetailCard}
-          {FemaleCard}
-          {MaleCard}
-        </>
-      );
-    } else {
-      return null;
-    }
-
-    // return body;
-  };
-
   const handleRemoveRecord = () => {
     console.log("deleeeeeeeeeeeeeeeeeeeeeete", femaleKey);
-    const data = {
-      entry: {
-        key: props.selectedItem.pregnancy._key,
-        femaleKey: femaleKey,
-      },
-      token: localStorage.artimal,
-    };
+    // const data = {
+    //   entry: {
+    //     key: props.selectedItem.pregnancy._key,
+    //     femaleKey: femaleKey,
+    //   },
+    //   token: localStorage.artimal,
+    // };
 
-    removePregnancyApi(data)
+    ApiDelete(
+      `api/v0/pregnancy/${localStorage.artimal}/${props.selectedItem.pregnancy._key}`
+    )
       .then((res) => {
         console.log("------------", res);
         notification(res.result, "success");
@@ -173,56 +53,121 @@ export default (props) => {
         props.handleClose();
       })
       .catch((err) => {
-        console.log(err);
-        notification(err.error, "danger");
+        if (err.error) {
+          console.log(err);
+          notification(err.error, "danger");
+        } else notification("خطا در برقراری ارتباط", "danger");
       });
+
+    // removePregnancyApi(data)
+    //   .then((res) => {
+    //     console.log("------------", res);
+    //     notification(res.result, "success");
+    //     props.forceUpdate();
+    //     props.handleClose();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     notification(err.error, "danger");
+    //   });
   };
   /* -------------------------------------------------------------------------- */
-  /*                                   effect                                   */
+  /*                                   effect                                                  */
   /* -------------------------------------------------------------------------- */
   useEffect(() => {
-    console.log(props);
-    if (props.selectedItem && Object.keys(props.selectedItem)) {
-      console.log("sendig requeeeeeeeeeeeeeest");
-      const data = {
-        entry: {
-          key: props.selectedItem.pregnancy._key,
-        },
-        token: localStorage.artiman,
-      };
-
-      readPregnancyDetailsApi(data)
+    console.log("========================", props);
+    if (props.isOpen) {
+      ApiGet(`api/v0/pregnancy/details/${props.selectedItem.pregnancy._key}`)
         .then((res) => {
           console.log("------------", res);
           setPregnancyDetails(res.result);
+          // notification(res.result, "success");
+          // props.forceUpdate();
+          // props.handleClose();
         })
         .catch((err) => {
-          console.log(err);
+          if (err.error) {
+            console.log(err);
+            notification(err.error, "danger");
+          } else {
+            notification("خطا در برقراری ارتباط", "danger");
+          }
         });
     }
   }, [props]);
-  /* -------------------------------------------------------------------------- */
-  /*                                   return                                   */
-  /* -------------------------------------------------------------------------- */
 
+  /* -------------------------------------------------------------------------- */
+  /*                                   return                                                 */
+  /* -------------------------------------------------------------------------- */
   return (
     <>
       <Modal
         isOpen={props.isOpen}
-        toggle={props.handleClose}
+        handlePopOverTo={props.handleClose}
         // className={className}
       >
         <ModalHeader
-        // toggle={toggle}
+        // handlePopOverTo={handlePopOverTo}
         >
           ویرایش
         </ModalHeader>
         <ModalBody>
-          {handleBody()}
+          {/* {handleBody()} */}
+          <h5>نتیجه</h5>
+          {pregnancyDetails.length ? (
+            <Table>
+              <thead className="text-primary">
+                <tr>
+                  <th>جنسیت</th>
+                  <th>پلاک</th>
+                  <th>وزن زمان تولد</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pregnancyDetails.map((element, i) => {
+                  console.log("iiiiiiiiii :::::::", i);
+                  return (
+                    <tr key={element._id + i}>
+                      <td>{element.sex === 0 ? "نر" : "ماده"}</td>
+                      <td>{element._key}</td>
+                      <td>{element.weight.value}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          ) : (
+            <p>برای این بارداری نتیجه ای ثبت نشده است</p>
+          )}
 
-          <Button color="danger" onClick={handleRemoveRecord}>
+          <h5>پارامترها</h5>
+
+          <Button
+            color="danger"
+            onClick={handleRemoveRecord}
+            // disabled
+            onMouseEnter={() => pregnancyDetails.length && setPopoverOpen(true)}
+            onMouseLeave={() =>
+              pregnancyDetails.length && setPopoverOpen(false)
+            }
+            id="Popover1"
+          >
             پاک کردن
           </Button>
+          <Popover
+            placement="bottom"
+            isOpen={popoverOpen}
+            target="Popover1"
+            className="popover-danger"
+          >
+            <PopoverHeader>اخطار</PopoverHeader>
+            <PopoverBody>
+              پاک کردن این رکورد دام هایی که نتیجه ی این بارداری بوده اند را
+              دچار مشکل میکند. در صورتی که راهی جز پاک کردن این رکورد وجود ندارد
+              لطفا با مراجعه به بخش ارورها نسبت به رفع مشکلاتی که متعاقبا به
+              وجود خواهد آمد اقدام کنید
+            </PopoverBody>
+          </Popover>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" type="button">

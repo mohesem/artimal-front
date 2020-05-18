@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import momentJalaali from "moment-jalaali";
 import DatePicker from "react-datepicker2";
-import notification from "../../helpers/notification";
+import notification from "helpers/notification";
 
 import {
   Button,
@@ -9,11 +9,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Table,
   Label,
   Input,
 } from "reactstrap";
@@ -24,14 +19,14 @@ import ApiDelete from "API/delete";
 import ApiPut from "API/put";
 
 export default (props) => {
+  console.log("--___-___-_----_", props);
   /* -------------------------------------------------------------------------- */
   /*                                   states                                   */
   /* -------------------------------------------------------------------------- */
   const [date, setDate] = useState();
-  const [weight, setWeight] = useState("");
-  const [weightError, setWeightError] = useState("");
-  const [checkboxDisabled, setCheckboxDisabled] = useState(false);
-  const [check, setCheck] = useState(false);
+  const [value, setValue] = useState("");
+  const [valueError, setValueError] = useState("");
+  const [dateError, setDateError] = useState("");
   /* -------------------------------------------------------------------------- */
   /*                                  handlers                                  */
   /* -------------------------------------------------------------------------- */
@@ -45,7 +40,7 @@ export default (props) => {
     console.log("remove buttomn clicked :: key is ", data);
 
     ApiDelete(
-      `api/v0/weight/${localStorage.artimal}/${props.selectedItem._key}/${props.animalKey}`
+      `api/v0/milk/${localStorage.artimal}/${props.selectedItem._key}/${props.animalKey}`
     )
       .then((res) => {
         props.forceUpdate();
@@ -53,43 +48,49 @@ export default (props) => {
         notification(res.result, "success");
       })
       .catch((err) => {
-        console.log(err);
+        if (err.error) {
+          notification(err.error);
+        } else {
+          notification("خطا در برقراری ارتباط", "danger");
+        }
       });
-
-    // removeWeightApi(data)
-    //   .then((res) => {
-    //     props.forceUpdate();
-    //     props.handleClose();
-    //     notification(res.result, "success");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 
   const handleSubmit = () => {
-    console.log(date, weight);
+    setValueError("");
+    setDateError("");
+    if (!value) {
+      setValueError("ورود وزن شیر الزامی است");
+    }
+    if (!date) {
+      setDateError("ورود تاریخ الزامی است");
+    }
 
-    const data = {
-      entry: {
-        value: weight,
-        date,
-        key: props.selectedItem._key,
-        stopFeedingMilk: check,
-        animalKey: props.animalKey,
-      },
-      token: localStorage.artimal,
-    };
+    if (!dateError && !valueError) {
+      const data = {
+        entry: {
+          value,
+          date,
+          key: props.selectedItem._key,
+          animalKey: props.animalKey,
+        },
+        token: localStorage.artimal,
+      };
 
-    ApiPut("api/v0/weight", data)
-      .then((res) => {
-        props.forceUpdate();
-        props.handleClose();
-        notification(res.result, "success");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      ApiPut("api/v0/milk", data)
+        .then((res) => {
+          props.forceUpdate();
+          props.handleClose();
+          notification(res.result, "success");
+        })
+        .catch((err) => {
+          if (err.error) {
+            notification(err.error);
+          } else {
+            notification("خطا در برقراری ارتباط", "danger");
+          }
+        });
+    }
   };
   /* -------------------------------------------------------------------------- */
   /*                                   effect                                   */
@@ -97,18 +98,8 @@ export default (props) => {
   useEffect(() => {
     if (props.selectedItem) {
       setDate(momentJalaali(props.selectedItem.date));
-      setWeight(props.selectedItem.value);
+      setValue(props.selectedItem.value);
       console.log("sendig requeeeeeeeeeeeeeest");
-      if (props.selectedItem.stopFeedingMilk) {
-        setCheckboxDisabled(false);
-        setCheck(true);
-      } else if (props.stopFeedingMilk) {
-        setCheckboxDisabled(true);
-        setCheck(false);
-      } else {
-        setCheckboxDisabled(false);
-        setCheck(false);
-      }
     }
   }, [props]);
   /* -------------------------------------------------------------------------- */
@@ -134,36 +125,20 @@ export default (props) => {
             value={date}
             onChange={(value) => setDate(value)}
           />
+          <p className="error-text-form">{dateError}</p>
+
           <Label>وزن</Label>
           <Input
             placeholder="به کیلوگرم"
-            value={weight}
+            value={value}
             onChange={(e) => {
               console.log(e);
-              setWeight(e.target.value);
+              setValue(e.target.value);
             }}
             type="number"
           />
-          <p className="error-text-form">{weightError}</p>
-          <div>
-            <Label
-              check
-              style={{
-                position: "unset",
-                verticalAlign: "middle",
-              }}
-            >
-              <Input
-                disabled={checkboxDisabled}
-                check
-                style={{ marginRight: "10" }}
-                type="checkbox"
-                checked={check}
-                onChange={() => setCheck(!check)}
-              />
-              <span style={{ marginRight: 22 }}>گرفتن از شیر</span>
-            </Label>
-          </div>
+          <p className="error-text-form">{valueError}</p>
+
           <Button color="danger" onClick={handleRemoveRecord}>
             پاک کردن
           </Button>

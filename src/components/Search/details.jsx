@@ -107,14 +107,14 @@ export default (props) => {
             >
               خروج
             </Button>
-            {/* <Button
+            <Button
               type="Button"
               color="primary"
               size="small"
               onClick={() => props.updateTool("milk")}
             >
               شیر
-            </Button> */}
+            </Button>
             {props.selectedAnimal.sex === 1 ? (
               <Button
                 type="Button"

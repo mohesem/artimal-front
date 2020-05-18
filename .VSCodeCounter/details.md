@@ -1,10 +1,10 @@
 # Details
 
-Date : 2020-05-09 21:00:15
+Date : 2020-05-12 13:48:06
 
 Directory /home/emad/Documents/projects/Artiman/paper-dashboard-react-master/src
 
-Total : 108 files,  16170 codes, 1137 comments, 1950 blanks, all 19257 lines
+Total : 110 files,  16496 codes, 1078 comments, 1994 blanks, all 19568 lines
 
 [summary](results.md)
 
@@ -21,7 +21,6 @@ Total : 108 files,  16170 codes, 1137 comments, 1950 blanks, all 19257 lines
 | [src/API/pregnancy/remove.js](/src/API/pregnancy/remove.js) | JavaScript | 24 | 0 | 4 | 28 |
 | [src/API/put.js](/src/API/put.js) | JavaScript | 26 | 0 | 4 | 30 |
 | [src/API/putAnimal.js](/src/API/putAnimal.js) | JavaScript | 24 | 0 | 4 | 28 |
-| [src/API/putMilk.js](/src/API/putMilk.js) | JavaScript | 25 | 0 | 4 | 29 |
 | [src/API/readAnimal.js](/src/API/readAnimal.js) | JavaScript | 24 | 0 | 4 | 28 |
 | [src/app.js](/src/app.js) | JavaScript | 51 | 5 | 9 | 65 |
 | [src/assets/css/paper-dashboard.css](/src/assets/css/paper-dashboard.css) | CSS | 4,345 | 58 | 456 | 4,859 |
@@ -76,29 +75,32 @@ Total : 108 files,  16170 codes, 1137 comments, 1950 blanks, all 19257 lines
 | [src/assets/scss/paper-dashboard/react/react-differences.scss](/src/assets/scss/paper-dashboard/react/react-differences.scss) | SCSS | 10 | 0 | 1 | 11 |
 | [src/components/FixedPlugin/FixedPlugin.jsx](/src/components/FixedPlugin/FixedPlugin.jsx) | JavaScript | 152 | 0 | 4 | 156 |
 | [src/components/Footer/Footer.jsx](/src/components/Footer/Footer.jsx) | JavaScript | 13 | 43 | 5 | 61 |
-| [src/components/Modals/disease.jsx](/src/components/Modals/disease.jsx) | JavaScript | 142 | 36 | 19 | 197 |
+| [src/components/Modals/disease.jsx](/src/components/Modals/disease.jsx) | JavaScript | 143 | 36 | 19 | 198 |
 | [src/components/Modals/diseaseDetails.jsx](/src/components/Modals/diseaseDetails.jsx) | JavaScript | 105 | 29 | 7 | 141 |
-| [src/components/Modals/newAnimal.jsx](/src/components/Modals/newAnimal.jsx) | JavaScript | 690 | 86 | 47 | 823 |
+| [src/components/Modals/newAnimal.jsx](/src/components/Modals/newAnimal.jsx) | JavaScript | 695 | 86 | 48 | 829 |
 | [src/components/Modals/newStatusDisease.jsx](/src/components/Modals/newStatusDisease.jsx) | JavaScript | 146 | 37 | 11 | 194 |
 | [src/components/Modals/pregnancy.jsx](/src/components/Modals/pregnancy.jsx) | JavaScript | 204 | 16 | 19 | 239 |
-| [src/components/Modals/vaccine.jsx](/src/components/Modals/vaccine.jsx) | JavaScript | 119 | 17 | 11 | 147 |
-| [src/components/Modals/weight.jsx](/src/components/Modals/weight.jsx) | JavaScript | 115 | 24 | 11 | 150 |
+| [src/components/Modals/vaccine.jsx](/src/components/Modals/vaccine.jsx) | JavaScript | 120 | 17 | 11 | 148 |
+| [src/components/Modals/weight.jsx](/src/components/Modals/weight.jsx) | JavaScript | 148 | 24 | 11 | 183 |
 | [src/components/Navbars/DemoNavbar.jsx](/src/components/Navbars/DemoNavbar.jsx) | JavaScript | 167 | 35 | 15 | 217 |
-| [src/components/Search/details.jsx](/src/components/Search/details.jsx) | JavaScript | 128 | 8 | 6 | 142 |
+| [src/components/Search/details.jsx](/src/components/Search/details.jsx) | JavaScript | 134 | 2 | 6 | 142 |
 | [src/components/Search/disease/history.jsx](/src/components/Search/disease/history.jsx) | JavaScript | 123 | 9 | 12 | 144 |
 | [src/components/Search/disease/new.jsx](/src/components/Search/disease/new.jsx) | JavaScript | 108 | 12 | 9 | 129 |
 | [src/components/Search/historyPregnancy.jsx](/src/components/Search/historyPregnancy.jsx) | JavaScript | 87 | 5 | 12 | 104 |
-| [src/components/Search/milk.jsx](/src/components/Search/milk.jsx) | JavaScript | 87 | 2 | 8 | 97 |
+| [src/components/Search/milk/editModal.jsx](/src/components/Search/milk/editModal.jsx) | JavaScript | 131 | 15 | 12 | 158 |
+| [src/components/Search/milk/new.jsx](/src/components/Search/milk/new.jsx) | JavaScript | 91 | 2 | 8 | 101 |
+| [src/components/Search/milk/tables.jsx](/src/components/Search/milk/tables.jsx) | JavaScript | 73 | 8 | 7 | 88 |
 | [src/components/Search/newPregnancy.jsx](/src/components/Search/newPregnancy.jsx) | JavaScript | 151 | 14 | 11 | 176 |
 | [src/components/Search/newVaccine.jsx](/src/components/Search/newVaccine.jsx) | JavaScript | 112 | 4 | 11 | 127 |
-| [src/components/Search/newWeight.jsx](/src/components/Search/newWeight.jsx) | JavaScript | 86 | 4 | 8 | 98 |
-| [src/components/Search/out.jsx](/src/components/Search/out.jsx) | JavaScript | 381 | 52 | 27 | 460 |
+| [src/components/Search/newWeight.jsx](/src/components/Search/newWeight.jsx) | JavaScript | 117 | 4 | 10 | 131 |
+| [src/components/Search/out.jsx](/src/components/Search/out.jsx) | JavaScript | 385 | 52 | 28 | 465 |
 | [src/components/Search/outHistory.jsx](/src/components/Search/outHistory.jsx) | JavaScript | 61 | 19 | 11 | 91 |
-| [src/components/Search/search.jsx](/src/components/Search/search.jsx) | JavaScript | 98 | 113 | 9 | 220 |
-| [src/components/Search/vaccineTable.jsx](/src/components/Search/vaccineTable.jsx) | JavaScript | 72 | 8 | 10 | 90 |
+| [src/components/Search/search.jsx](/src/components/Search/search.jsx) | JavaScript | 208 | 31 | 11 | 250 |
+| [src/components/Search/vaccineTable.jsx](/src/components/Search/vaccineTable.jsx) | JavaScript | 73 | 8 | 10 | 91 |
 | [src/components/Search/weightRecord.jsx](/src/components/Search/weightRecord.jsx) | JavaScript | 46 | 2 | 8 | 56 |
-| [src/components/Search/weightTable.jsx](/src/components/Search/weightTable.jsx) | JavaScript | 69 | 8 | 7 | 84 |
+| [src/components/Search/weightTable.jsx](/src/components/Search/weightTable.jsx) | JavaScript | 84 | 8 | 9 | 101 |
 | [src/components/Sidebar/Sidebar.jsx](/src/components/Sidebar/Sidebar.jsx) | JavaScript | 74 | 8 | 5 | 87 |
+| [src/components/user/newUser.jsx](/src/components/user/newUser.jsx) | JavaScript | 158 | 17 | 16 | 191 |
 | [src/helpers/notification.js](/src/helpers/notification.js) | JavaScript | 22 | 1 | 2 | 25 |
 | [src/index.js](/src/index.js) | JavaScript | 23 | 0 | 8 | 31 |
 | [src/layouts/Admin.jsx](/src/layouts/Admin.jsx) | JavaScript | 62 | 13 | 11 | 86 |
@@ -106,18 +108,18 @@ Total : 108 files,  16170 codes, 1137 comments, 1950 blanks, all 19257 lines
 | [src/logo.svg](/src/logo.svg) | XML | 7 | 0 | 1 | 8 |
 | [src/redux/actions.js](/src/redux/actions.js) | JavaScript | 6 | 0 | 1 | 7 |
 | [src/redux/reducers.js](/src/redux/reducers.js) | JavaScript | 12 | 0 | 3 | 15 |
-| [src/routes.js](/src/routes.js) | JavaScript | 32 | 54 | 2 | 88 |
+| [src/routes.js](/src/routes.js) | JavaScript | 39 | 47 | 2 | 88 |
 | [src/variables/charts.jsx](/src/variables/charts.jsx) | JavaScript | 191 | 19 | 11 | 221 |
 | [src/variables/general.jsx](/src/variables/general.jsx) | JavaScript | 29 | 2 | 2 | 33 |
 | [src/variables/icons.jsx](/src/variables/icons.jsx) | JavaScript | 403 | 18 | 2 | 423 |
 | [src/views/Dashboard.jsx](/src/views/Dashboard.jsx) | JavaScript | 124 | 138 | 9 | 271 |
 | [src/views/Login.jsx](/src/views/Login.jsx) | JavaScript | 164 | 10 | 19 | 193 |
-| [src/views/Logs.jsx](/src/views/Logs.jsx) | JavaScript | 79 | 5 | 9 | 93 |
+| [src/views/Logs.jsx](/src/views/Logs.jsx) | JavaScript | 83 | 5 | 10 | 98 |
 | [src/views/Notifications.jsx](/src/views/Notifications.jsx) | JavaScript | 269 | 4 | 3 | 276 |
-| [src/views/Search.jsx](/src/views/Search.jsx) | JavaScript | 194 | 40 | 21 | 255 |
+| [src/views/Search.jsx](/src/views/Search.jsx) | JavaScript | 236 | 30 | 23 | 289 |
 | [src/views/Tables.jsx](/src/views/Tables.jsx) | JavaScript | 152 | 1 | 4 | 157 |
 | [src/views/Typography.jsx](/src/views/Typography.jsx) | JavaScript | 137 | 19 | 4 | 160 |
 | [src/views/Upgrade.jsx](/src/views/Upgrade.jsx) | JavaScript | 131 | 19 | 4 | 154 |
-| [src/views/User.jsx](/src/views/User.jsx) | JavaScript | 301 | 1 | 4 | 306 |
+| [src/views/User.jsx](/src/views/User.jsx) | JavaScript | 26 | 7 | 6 | 39 |
 
 [summary](results.md)

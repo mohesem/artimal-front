@@ -34,33 +34,18 @@ export default (props) => {
   /*                                   effects                                  */
   /* -------------------------------------------------------------------------- */
   useEffect(() => {
-    const _type = type !== "همه" ? type : "_";
-    const _sex = sex ? sex : "_";
-    const _entryType = entryType ? entryType : "_";
+    if (key === props.selectedAnimal._key) {
+      setOptions([]);
+    } else if (key) {
+      let q = "limit:10";
+      if (key) q += `&&key:${key}`;
+      if (sex || sex === 0) q += `&&sex:${sex}`;
+      if (type !== "همه") q += `&&type:${type}`;
+      if (entryType) q += `&&entryType:${entryType}`;
 
-    console.log({ _type, _sex, _entryType });
+      console.log({ q });
 
-    console.log("key length is ::: ", key.length);
-    if (key.length > 5) {
-      console.log("get the animal ");
-      ApiGet(`api/v0/animal/stock/1/${key}/${_sex}/${_type}/${_entryType}`)
-        .then((res) => {
-          if (!res.result.length) {
-            notification("دامی با این پلاک پیدا نشد", "warning");
-            props.updateKey("");
-            props.updateSelectedAnimal({});
-          } else {
-            console.log("__--__--__--__", res.result[0], { res });
-            setOptions([]);
-            setKey(res.result[0].key);
-            props.updateKey(res.result[0].key);
-          }
-        })
-        .catch((err) => {
-          console.log("__--__--__--__", { err });
-        });
-    } else {
-      ApiGet(`api/v0/animal/stock/10/${key}/${_sex}/${_type}/${_entryType}`)
+      ApiGet(`api/v0/animal/stock/${q}`)
         .then((res) => {
           console.log(res);
           if (!res.result.length) {
@@ -118,7 +103,7 @@ export default (props) => {
                 setType(e.target.value);
                 // setRace("");
               }}
-              isValid={type}
+              // isValid={type}
               // isInvalid={Object.keys(errors.type).length || !type}
             >
               <option>همه</option>

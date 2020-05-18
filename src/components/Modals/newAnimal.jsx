@@ -36,7 +36,7 @@ export default (props) => {
   /* -------------------------------------------------------------------------- */
 
   const [entryType, setEntryType] = useState(0);
-  const [price, setPrice] = useState("");
+  // const [price, setPrice] = useState("");
   const [weight, setWeight] = useState("");
   const [key, setKey] = useState("");
   const [type, setType] = useState("");
@@ -52,9 +52,10 @@ export default (props) => {
 
   const entryDate = momentJalaali();
   const [birthDate, setBirthDate] = useState(momentJalaali());
+  const [shopDate, setShopDate] = useState();
 
   const [touched, setTouched] = useState({
-    price: false,
+    // price: false,
     weight: false,
     key: false,
     fatherKey: false,
@@ -62,7 +63,8 @@ export default (props) => {
   });
 
   const [errors, setErrors] = useState({
-    price: {},
+    // price: {},
+    shopDate: {},
     weight: {},
     key: {},
     fatherKey: {},
@@ -74,8 +76,8 @@ export default (props) => {
 
   const [fatherOptions, setFatherOptions] = useState([]);
   const [motherOptions, setMotherOptions] = useState([]);
-
-  const [getNewKeyOnProgress, setGetNewKeyOnProgress] = useState(false);
+  const [pregnancyKey, setPregnancyKey] = useState("");
+  // const [getNewKeyOnProgress, setGetNewKeyOnProgress] = useState(false);
 
   /* -------------------------------------------------------------------------- */
   /*                                  handlers                                  */
@@ -100,7 +102,7 @@ export default (props) => {
           <option>لری</option>
           <option>شال</option>
           <option>مغانی</option>
-          <option>رومانف</option>
+          <option>رومن</option>
         </>
       );
     }
@@ -111,6 +113,7 @@ export default (props) => {
           <option>ایرانی</option>
           <option>پاکستانی</option>
           <option>آلپاین</option>
+          <option>سانن</option>
         </>
       );
     }
@@ -150,15 +153,20 @@ export default (props) => {
 
   const handleKeyMother = (value) => {
     setMotherKey(value);
-    ApiGet(`api/v0/animal/stock/10/${value}/1/${type}/${race}`)
+
+    const q = `limit:10&&sex:1&&key:${value}&&type:${type}&&race:${race}`;
+
+    ApiGet(`api/v0/animal/stock/${q}`)
       .then((res) => {
         console.log("mother res is :::::::::", res);
         if (!res.result.length) {
           notification("دامی پیدا نشد", "warning");
           if (motherOptions.length) setMotherOptions([]);
-        } else if (value.length === 6 && res.result[0].key === value) {
-          setMotherOptions([]);
-        } else {
+        }
+        //  else if (value.length === 6 && res.result[0].key === value) {
+        //   setMotherOptions([]);
+        // }
+        else {
           setMotherOptions(res.result);
         }
       })
@@ -172,10 +180,11 @@ export default (props) => {
     setFatherKey(_key);
     console.log(_key);
   };
-  const handleMotherKeySelect = (_key) => {
+  const handleMotherKeySelect = (mother) => {
     setMotherOptions([]);
-    setMotherKey(_key);
-    console.log(_key);
+    console.log({ mother });
+    // setMotherKey(mother._key);
+    setMother(mother);
   };
 
   useEffect(() => {
@@ -224,20 +233,20 @@ export default (props) => {
     if (key.length && errors.key.serverErr) {
       delete errors.key.serverErr;
     }
-    /* ---------------------------------- price --------------------------------- */
-    if (
-      entryType === 1 &&
-      touched.price &&
-      !price.length &&
-      !errors.price.isRequired
-    ) {
-      const error = "ورود قیمت برای دام خریداری شده الزامی است";
-      if (!newErrors.price) newErrors.price = {};
-      newErrors.price.isRequired = error;
-    }
-    if (price.length && errors.price.isRequired) {
-      delete errors.price.isRequired;
-    }
+    // /* ---------------------------------- price --------------------------------- */
+    // if (
+    //   entryType === 1 &&
+    //   touched.price &&
+    //   !price.length &&
+    //   !errors.price.isRequired
+    // ) {
+    //   const error = "ورود قیمت برای دام خریداری شده الزامی است";
+    //   if (!newErrors.price) newErrors.price = {};
+    //   newErrors.price.isRequired = error;
+    // }
+    // if (price.length && errors.price.isRequired) {
+    //   delete errors.price.isRequired;
+    // }
 
     /* ---------------------------------- race ---------------------------------- */
     if (race.length && errors.race.isRequired) {
@@ -272,7 +281,6 @@ export default (props) => {
     gene,
     key,
     motherKey,
-    price,
     race,
     touched,
     type,
@@ -310,11 +318,18 @@ export default (props) => {
       newErrors.gene.isRequired = error;
     }
 
-    /* ---------------------------------- price --------------------------------- */
-    if (entryType === 1 && !price.length && !errors.price.isRequired) {
-      const error = "ورود قیمت برای دام خریداری شده الزامی است";
-      if (!newErrors.price) newErrors.price = {};
-      newErrors.price.isRequired = error;
+    // /* ---------------------------------- price --------------------------------- */
+    // if (entryType === 1 && !price.length && !errors.price.isRequired) {
+    //   const error = "ورود قیمت برای دام خریداری شده الزامی است";
+    //   if (!newErrors.price) newErrors.price = {};
+    //   newErrors.price.isRequired = error;
+    // }
+
+    /* -------------------------------- shop date ------------------------------- */
+    if (entryType === 1 && !shopDate && !errors.shopDate.isGregorian) {
+      const error = "ورود تاریخ خرید الزامی است";
+      if (!newErrors.shopDate) newErrors.shopDate = {};
+      newErrors.shopDate.isRequired = error;
     }
 
     /* ---------------------------------- race ---------------------------------- */
@@ -349,7 +364,9 @@ export default (props) => {
             entryType,
             entryDate,
             birthDate,
-            price: Number(price),
+            // price: Number(price),
+            shopDate,
+            pregnancyKey,
             weight: Number(weight),
             key,
             type,
@@ -370,7 +387,7 @@ export default (props) => {
             // console.log(".....", res);
 
             setEntryType(0);
-            setPrice("");
+            setPregnancyKey("");
             setWeight("");
             setKey("");
             setType("");
@@ -378,7 +395,7 @@ export default (props) => {
             setFatherKey("");
             setMotherKey("");
             setTouched({
-              price: false,
+              // price: false,
               weight: false,
               key: false,
               fatherKey: false,
@@ -387,6 +404,7 @@ export default (props) => {
           })
           .catch((err) => {
             console.log(err);
+            notification(err.error, "danger");
           });
         console.log("sending request");
       } else {
@@ -407,27 +425,27 @@ export default (props) => {
     setMotherOptions([]);
   }
 
-  if (!key && !getNewKeyOnProgress) {
-    console.log();
-    setGetNewKeyOnProgress(true);
-    // let counter = 0;
+  // if (!key && !getNewKeyOnProgress) {
+  //   console.log();
+  //   setGetNewKeyOnProgress(true);
+  //   // let counter = 0;
 
-    ApiGet("api/v0/animal/newKey")
-      .then((res) => {
-        console.log("current animal keys", res);
-        const keyString = String(100000 + res.result);
-        setGetNewKeyOnProgress(false);
-        setKey(keyString);
-      })
-      .catch((err) => {
-        setTimeout(() => {
-          setGetNewKeyOnProgress(false);
-        }, 3000);
+  //   ApiGet("api/v0/animal/newKey")
+  //     .then((res) => {
+  //       console.log("current animal keys", res);
+  //       const keyString = String(100000 + res.result);
+  //       setGetNewKeyOnProgress(false);
+  //       setKey(keyString);
+  //     })
+  //     .catch((err) => {
+  //       setTimeout(() => {
+  //         setGetNewKeyOnProgress(false);
+  //       }, 3000);
 
-        errors.key.serverErr = "خطای سروی";
-        console.log(err);
-      });
-  }
+  //       errors.key.serverErr = "خطای سروی";
+  //       console.log(err);
+  //     });
+  // }
 
   /* -------------------------------------------------------------------------- */
   /*                                   effects                                  */
@@ -444,34 +462,48 @@ export default (props) => {
   //     });
   // } else {
   useEffect(() => {
-    if (motherKey.length === 6) {
-      ApiGet(`api/v0/animal/detail/${motherKey}`)
-        .then((res) => {
-          console.log("res is ::: ", res);
+    // ApiGet(`api/v0/animal/detail/${motherKey}`)
+    //     .then((res) => {
+    //       console.log("res is ::: ", res);
 
-          ApiGet(`api/v0/animal/pregnancy/${motherKey}`).then((res) => {
-            console.log("-------------", res);
-            if (!res.result.length) {
-              notification("بارداری ای برای این دام ثبت نشده هاست", "danger");
-              setFatherKey("");
-            } else setFatherKey(res.result[0].male._key);
-          });
-          console.log("get father key");
-        })
-        .catch((err) => console.log(err));
-      // getActivePregnancy(motherKey)
-      //   .then((res) => {
-      //     console.log(res.result);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-      // console.log(
-      //   "get pregnancy active record and fill fa ther key",
-      //   motherKey
-      // );
+    //       ApiGet(`api/v0/animal/pregnancy/${motherKey}`).then((res) => {
+    //         console.log("-------------", res);
+    //         if (!res.result.length) {
+    //           notification("بارداری ای برای این دام ثبت نشده هاست", "danger");
+    //           setFatherKey("");
+    //         } else setFatherKey(res.result[0].male._key);
+    //       });
+    //       console.log("get father key");
+    //     })
+    //     .catch((err) => console.log(err));
+
+    if (mother) {
+      ApiGet(`api/v0/animal/pregnancy/${mother.key}`).then((res) => {
+        console.log("-------------", res);
+        if (!res.result.length) {
+          notification("بارداری ای برای این دام ثبت نشده هاست", "danger");
+          setFatherKey("");
+        } else {
+          setFatherKey(res.result[0].male._key);
+          setPregnancyKey(res.result[0].pregnancy._key);
+        }
+      });
     }
-  }, [errors, motherKey]);
+  }, [mother]);
+
+  useEffect(() => {
+    setFatherKey("");
+  }, [motherKey]);
+
+  useEffect(() => {
+    setMother();
+    setMotherKey("");
+  }, [race, type]);
+
+  useEffect(() => {
+    if (entryType !== 1 && errors.shopDate.isRequired)
+      delete errors.shopDate.isRequired;
+  }, [entryType, errors.shopDate.isRequired]);
 
   /* -------------------------------------------------------------------------- */
   /*                                   return                                   */
@@ -491,6 +523,98 @@ export default (props) => {
         </ModalHeader>
         <ModalBody>
           <Form>
+            <FormGroup>
+              <Label>نحوه ی ورود</Label>
+              <div style={{ display: "flex" }}>
+                <FormGroup check>
+                  <Label check>
+                    <span>تولد</span>
+                    <Input
+                      type="radio"
+                      onChange={() => setEntryType(0)}
+                      checked={entryType === 0}
+                    />
+                  </Label>
+                </FormGroup>
+                <FormGroup check>
+                  <Label check>
+                    <span>خرید</span>
+                    <Input
+                      type="radio"
+                      onChange={() => setEntryType(1)}
+                      checked={entryType === 1}
+                    />
+                  </Label>
+                </FormGroup>
+                <FormGroup check>
+                  <Label check>
+                    <span>موجودی سابق</span>
+                    <Input
+                      type="radio"
+                      onChange={() => setEntryType(2)}
+                      checked={entryType === 2}
+                    />
+                  </Label>
+                </FormGroup>
+              </div>
+            </FormGroup>
+            <FormGroup>
+              <Label>تاریخ تولد</Label>
+              <FormGroup>
+                <DatePicker
+                  isGregorian={false}
+                  timePicker={false}
+                  value={birthDate}
+                  onChange={(value) => setBirthDate(value)}
+                />
+              </FormGroup>
+            </FormGroup>
+            {entryType === 1 ? (
+              <FormGroup>
+                <Label>تاریخ خرید</Label>
+                <FormGroup>
+                  <DatePicker
+                    isGregorian={false}
+                    timePicker={false}
+                    value={shopDate}
+                    onChange={(value) => setShopDate(value)}
+                  />
+                </FormGroup>
+                {Object.keys(errors.shopDate).map((name, i) => {
+                  return (
+                    <p className="error-text-form" key={`shopDate${i}`}>
+                      {errors.shopDate[name]}
+                    </p>
+                  );
+                })}
+              </FormGroup>
+            ) : null}
+
+            <FormGroup>
+              <Label>جنسیت</Label>
+              <div style={{ display: "flex" }}>
+                <FormGroup check>
+                  <Label check>
+                    <span>نر</span>
+                    <Input
+                      type="radio"
+                      onChange={() => setSex(0)}
+                      checked={sex === 0}
+                    />
+                  </Label>
+                </FormGroup>
+                <FormGroup check>
+                  <Label check>
+                    <span>ماده</span>
+                    <Input
+                      type="radio"
+                      onChange={() => setSex(1)}
+                      checked={sex === 1}
+                    />
+                  </Label>
+                </FormGroup>
+              </div>
+            </FormGroup>
             <FormGroup>
               <Label>نوع</Label>
               <FormGroup>
@@ -543,67 +667,6 @@ export default (props) => {
                 );
               })}
             </FormGroup>
-            <FormGroup>
-              <Label>نحوه ی ورود</Label>
-              <div style={{ display: "flex" }}>
-                <FormGroup check>
-                  <Label check>
-                    <span>تولد</span>
-                    <Input
-                      type="radio"
-                      onChange={() => setEntryType(0)}
-                      checked={entryType === 0}
-                    />
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label check>
-                    <span>خرید</span>
-                    <Input
-                      type="radio"
-                      onChange={() => setEntryType(1)}
-                      checked={entryType === 1}
-                    />
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label check>
-                    <span>موجودی سابق</span>
-                    <Input
-                      type="radio"
-                      onChange={() => setEntryType(2)}
-                      checked={entryType === 2}
-                    />
-                  </Label>
-                </FormGroup>
-              </div>
-            </FormGroup>
-            <FormGroup>
-              <Label>جنسیت</Label>
-              <div style={{ display: "flex" }}>
-                <FormGroup check>
-                  <Label check>
-                    <span>نر</span>
-                    <Input
-                      type="radio"
-                      onChange={() => setSex(0)}
-                      checked={sex === 0}
-                    />
-                  </Label>
-                </FormGroup>
-                <FormGroup check>
-                  <Label check>
-                    <span>ماده</span>
-                    <Input
-                      type="radio"
-                      onChange={() => setSex(1)}
-                      checked={sex === 1}
-                    />
-                  </Label>
-                </FormGroup>
-              </div>
-            </FormGroup>
-
             {type === "گوسفند" ? (
               <FormGroup>
                 <Label>ژن</Label>
@@ -631,17 +694,7 @@ export default (props) => {
                 })}
               </FormGroup>
             ) : null}
-            <FormGroup>
-              <Label>"تاریخ تولد"</Label>
-              <FormGroup>
-                <DatePicker
-                  isGregorian={false}
-                  timePicker={false}
-                  value={birthDate}
-                  onChange={(value) => setBirthDate(value)}
-                />
-              </FormGroup>
-            </FormGroup>
+
             {entryType === 0 ? (
               <>
                 <FormGroup>
@@ -674,7 +727,7 @@ export default (props) => {
                           <ListGroupItem
                             key={`listItem${i}`}
                             action
-                            onClick={() => handleMotherKeySelect(o.key)}
+                            onClick={() => handleMotherKeySelect(o)}
                             // variant={i % 2 === 0 ? "info" : "primary"}
                             type="button"
                           >
@@ -750,7 +803,7 @@ export default (props) => {
                 </FormGroup>
               </>
             ) : null}
-            {entryType === 1 ? (
+            {/* {entryType === 1 ? (
               <FormGroup>
                 <Label>قیمت</Label>
                 <FormGroup>
@@ -775,7 +828,7 @@ export default (props) => {
                   );
                 })}
               </FormGroup>
-            ) : null}
+            ) : null} */}
             <FormGroup>
               <Label>{entryType === 0 ? "وزن تولد" : "وزن هنگام ورود"}</Label>
               <FormGroup>
@@ -802,7 +855,11 @@ export default (props) => {
             <FormGroup>
               <Label>شماره پلاک</Label>
               <FormGroup>
-                <Input readOnly defaultValue={key} disabled />
+                <Input
+                  type="number"
+                  defaultValue={key}
+                  onChange={(e) => setKey(e.target.value)}
+                />
               </FormGroup>
               {Object.keys(errors.key).map((name, i) => {
                 return (

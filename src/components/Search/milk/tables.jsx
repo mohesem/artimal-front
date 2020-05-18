@@ -3,60 +3,45 @@ import momentJalaali from "moment-jalaali";
 // reactstrap components
 import { Card, CardHeader, CardBody, Table, Button } from "reactstrap";
 // component
-import WeightEditModal from "../../components/Modals/weight";
+import EditModal from "./editModal";
 
 export default (props) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState();
-  const [stopFeedingMilk, setStopFeedingMilk] = useState();
 
   /* -------------------------------------------------------------------------- */
   /*                                  handlders                                 */
   /* -------------------------------------------------------------------------- */
   const handleSelectItem = (key) => {
-    const item = props.weightArr.filter((i) => i._key === key);
+    const item = props.milkRecords.filter((i) => i._key === key);
     console.log("|||||||||||", item);
     setSelectedItem(item[0]);
   };
 
-  useEffect(() => {
-    const findStopFeedingMilk = props.weightArr.filter(
-      (record) => record.stopFeedingMilk
-    );
-    console.log(":::::", findStopFeedingMilk);
-
-    if (findStopFeedingMilk.length) {
-      setStopFeedingMilk(true);
-    } else {
-      setStopFeedingMilk(false);
-    }
-  }, [props.weightArr]);
-
   console.log("++++++", props);
   const renderBody = () => {
-    const result = props.weightArr.map((w, i) => {
+    const result = props.milkRecords.map((m, i) => {
       const createdAtJdate = momentJalaali(
-        w.date,
+        m.date,
         "YYYY-M-DTHH:mm:ss.SSSZ"
       ).format("jYYYY-jM-jD");
       return (
         <tr key={`weightItem${i}`}>
           <td>{createdAtJdate}</td>
-          <td>{w.value}</td>
+          <td>{m.value}</td>
           <td>
             <Button
               type="button"
               color="link"
               onClick={() => {
-                console.log("clickeeeeeeeeeeeeeeeeeeeeeeeed", w);
-                handleSelectItem(w._key);
+                console.log("clickeeeeeeeeeeeeeeeeeeeeeeeed", m);
+                handleSelectItem(m._key);
                 handleEditModalOpen();
               }}
             >
               ویرایش
             </Button>
           </td>
-          {w.stopFeedingMilk ? <td>گرفتن از شیر</td> : null}
         </tr>
       );
     });
@@ -74,26 +59,28 @@ export default (props) => {
   return (
     <>
       <Card>
-        <CardHeader as="h5">جدول وزن</CardHeader>
+        <CardHeader as="h5">جدول شیردهی</CardHeader>
         <CardBody>
-          <Table>
-            <thead className="text-primary">
-              <tr>
-                <th>تاریخ</th>
-                <th>وزن</th>
-              </tr>
-            </thead>
-            <tbody>{renderBody()}</tbody>
-          </Table>
+          {props.milkRecords.length ? (
+            <Table>
+              <thead className="text-primary">
+                <tr>
+                  <th>تاریخ</th>
+                  <th>وزن</th>
+                </tr>
+              </thead>
+              <tbody>{renderBody()}</tbody>
+            </Table>
+          ) : (
+            <p>رکوردی ثبت نشده است</p>
+          )}
         </CardBody>
       </Card>
-      <WeightEditModal
-        animalKey={props.animalKey}
+      <EditModal
         isOpen={editModalOpen}
         handleClose={handleEditModalOpen}
         forceUpdate={props.forceUpdate}
         selectedItem={selectedItem}
-        stopFeedingMilk={stopFeedingMilk}
       />
     </>
   );

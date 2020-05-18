@@ -83,6 +83,7 @@ export default (props) => {
         handleClose={handleEditModalOpen}
         forceUpdate={props.forceUpdate}
         selectedItem={selectedItem}
+        animalKey={props.animalKey}
       />
     </>
   );

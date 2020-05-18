@@ -53,13 +53,13 @@ export default (props) => {
   const handleFatherKeyChange = (value) => {
     setMaleKey(value);
 
-    console.log(
-      "=============",
-      `api/v0/animal/stock/10/${value}/0/${props.selectedAnimal.type}/${props.selectedAnimal.race}`
-    );
-    ApiGet(
-      `api/v0/animal/stock/10/${value}/0/${props.selectedAnimal.type}/${props.selectedAnimal.race}`
-    )
+    // console.log(
+    //   "=============",
+    //   `api/v0/animal/stock/10/${value}/0/${props.selectedAnimal.type}/${props.selectedAnimal.race}`
+    // );
+
+    const q = `limit:10&&key:${value}&&type:${props.selectedAnimal.type}&&race:${props.selectedAnimal.race}`;
+    ApiGet(`api/v0/animal/stock/${q}`)
       .then((res) => {
         if (!res.result.length) notification("نتیجه ای پیدا نشد", "warning");
         setMaleOptions(res.result);

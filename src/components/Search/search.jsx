@@ -59,6 +59,8 @@ export default (props) => {
         .catch((err) => {
           console.log(err);
         });
+    } else {
+      setOptions([]);
     }
   }, [entryType, key, props, sex, type]);
 

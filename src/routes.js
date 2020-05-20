@@ -22,8 +22,8 @@ import Errors from "views/Errors.jsx";
 import Logs from "views/Logs.jsx";
 import User from "views/User.jsx";
 import Stock from "views/Stock.jsx";
-// import Notifications from "views/Notifications.jsx";
-// import UpgradeToPro from "views/Upgrade.jsx";
+import Incomes from "views/Incomes.jsx";
+import Expenses from "views/Expenses.jsx";
 
 var routes = [
   {
@@ -68,34 +68,20 @@ var routes = [
     component: Stock,
     layout: "/admin",
   },
-  // {
-  //   path: "/user-page",
-  //   name: "User Profile",
-  //   icon: "nc-icon nc-single-02",
-  //   component: UserPage,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/tables",
-  //   name: "Table List",
-  //   icon: "nc-icon nc-tile-56",
-  //   component: TableList,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/typography",
-  //   name: "Typography",
-  //   icon: "nc-icon nc-caps-small",
-  //   component: Typography,
-  //   layout: "/admin",
-  // },
-  // {
-  //   pro: true,
-  //   path: "/upgrade",
-  //   name: "Upgrade to PRO",
-  //   icon: "nc-icon nc-spaceship",
-  //   component: UpgradeToPro,
-  //   layout: "/admin",
-  // },
+
+  {
+    path: "/expenses",
+    name: "هزینه ها",
+    icon: "nc-icon nc-basket",
+    component: Expenses,
+    layout: "/admin",
+  },
+  {
+    path: "/incomes",
+    name: "درآمدها",
+    icon: "nc-icon nc-shop",
+    component: Incomes,
+    layout: "/admin",
+  },
 ];
 export default routes;

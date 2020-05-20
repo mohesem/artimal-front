@@ -392,7 +392,7 @@ export default (props) => {
                   </tbody>
                 </Table>
               ) : null}
-              {noDiseaseFound ? (
+              {mode === 2 && deathReason === "بیماری" && noDiseaseFound ? (
                 <Alert color="danger">
                   سابقه ی بیماری فعالی برای این دام یافت نشد. لطفا بیناری را
                   وارد منید و سپس نسبت به ثبت مرگ در اثر بیمار ی اقدام نمیایید

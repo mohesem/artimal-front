@@ -11,6 +11,7 @@ export default () => {
   const [logs, setLogs] = useState([]);
   const [page, setpage] = useState();
   const [uri, setUri] = useState("");
+  const [animalKey, setAnimalKey] = useState("");
 
   // const [key, setKey] = useState("");
   const [value, setValue] = useState("همه");
@@ -34,7 +35,7 @@ export default () => {
     const _collection = () => {
       switch (collection) {
         case "همه":
-          return null;
+          return "";
         case "وزن":
           return "weight";
         case "شیر":
@@ -50,7 +51,7 @@ export default () => {
         case "مخارج":
           return "expense";
         default:
-          break;
+          return "";
       }
     };
     // <option>ساخت</option>
@@ -60,7 +61,7 @@ export default () => {
     const _value = () => {
       switch (value) {
         case "همه":
-          return null;
+          return "";
         case "ساخت":
           return "create";
         case "بروزرسانی":
@@ -68,13 +69,24 @@ export default () => {
         case "پاک کردن":
           return "delete";
         default:
-          break;
+          return "";
       }
     };
 
-    console.log({ _collection: _collection() });
-    setUri(`api/v0/logs/pagination/20/${page}/${_collection()}/${_value()}`);
-  }, [page, collection, value]);
+    console.log(
+      "000000000000000000000000",
+      typeof _collection(),
+      _collection()
+    );
+
+    let query = `${_collection() ? `collection:${_collection()}` : ""}${
+      _value() ? `&&value:${_value()}` : ""
+    }${animalKey ? `&&animalKey:${animalKey}` : ""}`;
+
+    console.log("=======================", query, typeof query);
+
+    setUri(`api/v0/logs/pagination/20/${page}/${query}`);
+  }, [page, collection, value, animalKey]);
 
   /* -------------------------------------------------------------------------- */
   /*                                  handlers                                  */
@@ -89,6 +101,7 @@ export default () => {
           <td>{log.type}</td>
           <td>{log.entryId}</td>
           <td>{log.userId}</td>
+          <td>{log.animalId}</td>
         </tr>
       );
     });
@@ -137,6 +150,18 @@ export default () => {
             </FormGroup>
           </FormGroup>
         </Col>
+        <Col md="4">
+          <FormGroup>
+            <Label for="exampleText">پلاک دام</Label>
+            <Input
+              type="text"
+              value={animalKey}
+              onChange={(e) => setAnimalKey(e.target.value)}
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
         <Col md="12">
           {logs.length ? (
             <Table>
@@ -147,6 +172,7 @@ export default () => {
                   <th>مجموعه</th>
                   <th>کد دیتای وارد شده</th>
                   <th>توسط</th>
+                  <th>کد دام</th>
                 </tr>
               </thead>
               <tbody>{handleBody()}</tbody>

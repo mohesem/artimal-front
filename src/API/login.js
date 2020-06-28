@@ -1,5 +1,5 @@
 const host =
-  process.env.REACT_APP_ENV === "dev" ? "localhost:4000" : "194.5.175.201";
+  process.env.REACT_APP_ENV === "dev" ? "localhost:4000" : "45.149.77.174";
 
 export default (data) => {
   const uri = `http://${host}/api/v0/user/signin`;
